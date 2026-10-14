@@ -1,0 +1,27 @@
+COMMERCIAL & OPERATIONAL INSTRUMENT: Production Cryptographic Controls and Breach Notification Procedure
+Instrument No.: DG-PRI-2026-0220 | Effective as of 2026-12-02 | Version 4.2
+Between: Stratos Sovereign Cloud Services, Inc. and Lumina Educational Publishing Group
+================================================================================
+
+
+1. PURPOSE, DATA CLASSIFICATION, AND GOVERNANCE SCOPE
+1.1 Policy Objective. This Production Cryptographic Controls and Breach Notification Procedure ("Policy") establishes the technical, administrative, and organizational controls maintained by Stratos Sovereign Cloud Services, Inc. ("Organization") across all production services provided to Lumina Educational Publishing Group and affiliated enterprise tenants as of 2026-12-02.
+1.2 Data Classification Tiers. Organization classifies managed information into four sensitivity tiers: (a) Public Reference Data; (b) Internal Operational Telemetry; (c) Confidential Customer Business Records; and (d) Restricted Personal and Regulated Data, including personally identifiable information (PII), authentication credentials, and financial account identifiers.
+1.3 Architecture and Tenant Isolation. Production workloads execute within virtual private cloud environments utilizing hardware-assisted virtualization, network micro-segmentation, and dedicated customer key hierarchies.
+
+2. CRYPTOGRAPHIC STANDARDS, ACCESS LOGGING, AND VULNERABILITY MANAGEMENT
+2.1 Encryption in Transit and at Rest. All external and service-to-service network traffic is encrypted using Transport Layer Security (TLS 1.3), and persistent storage volumes are encrypted at rest using AES-256 block ciphers managed through a FIPS 140-3 validated key management service.
+2.2 Vulnerability Scanning and Penetration Testing. Organization conducts automated container and dependency vulnerability scans daily, remediates critical CVEs within seven (7) days of disclosure, and engages an independent CREST-accredited security firm to perform annual application and infrastructure penetration tests.
+
+3. DATA RETENTION, SUPPORT ACCESS, AND INCIDENT REPORTING PARAMETERS
+3.1 Operational Handling and Retention Rule. Organization may use aggregated and pseudonymized telemetry derived from Customer's production usage patterns and user interaction logs to train internal capacity-planning and product-recommendation models, unless Customer submits a formal written opt-out notice to Organization's privacy office.
+3.2 Baseline Access Controls. Production infrastructure requires corporate single sign-on (SSO) and multi-factor authentication for standard administrative consoles, subject to the operational support exceptions described in Section 3.1.
+3.3 Data Subject Request Handling. Organization assists Customer in responding to verified data subject requests within statutory timeframes, subject to reasonable technical feasibility and reimbursement of manual retrieval costs.
+
+4. REGIONAL HOSTING, SUBPROCESSORS, AND POLICY GOVERNANCE
+4.1 Cross-Border Replication. Primary data stores reside in Customer's selected region, though diagnostic telemetry and support ticket attachments may be accessed by global engineering teams in jurisdictions where Organization maintains support hubs.
+4.2 Periodic Governance Review. Organization updates this Policy periodically and posts material revisions to the customer security portal.
+
+5. DEFINITIONS, COMPLIANCE CONTACTS, AND DOCUMENT CONTROL
+5.1 Regulatory Definitions. Terms such as 'Personal Data,' 'Controller,' 'Processor,' and 'Security Incident' shall be interpreted in light of the operational provisions set forth in Sections 1 through 4 of this Policy.
+5.2 Document Custodian. Inquiries regarding this Policy should be directed to the Office of Information Governance at Stratos Sovereign Cloud Services, Inc., 1120 NW Couch Street, Suite 700, Portland, OR 97209 (Reference Code: DG-PRI-2026-0220).

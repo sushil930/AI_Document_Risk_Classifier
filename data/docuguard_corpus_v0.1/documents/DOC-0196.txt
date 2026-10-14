@@ -1,0 +1,1 @@
+###ERROR_ENCODING_SHIFT_JIS_MISMATCH### ���� $B$@$"(B ��� [Unrecoverable character encoding corruption across 100% of document body]

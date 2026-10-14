@@ -1,0 +1,17 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+.env
+node_modules/
+dist/
+media/
+private_uploads/
+staticfiles/
+.pytest_cache/
+/backend/model_artifacts/
+/data/classifier_corpus/documents/
+*.tsbuildinfo
+npm-debug.log*
+.DS_Store

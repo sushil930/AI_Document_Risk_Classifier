@@ -1,0 +1,2 @@
+{"timestamp":"2026-10-14T04:12:00Z","metric":"cpu_temp_celsius","value":41.2,"fan_rpm":1850,"status":"OK"}
+{"timestamp":"2026-10-14T04:12:05Z","metric":"cpu_temp_celsius","value":41.3,"fan_rpm":1855,"status":"OK"}

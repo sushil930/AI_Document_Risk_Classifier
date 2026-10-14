@@ -1,0 +1,28 @@
+ENTERPRISE FEE SCHEDULE, PAYMENT TERMS, AND BILLING POLICY
+Document Reference: DG-FIN-2024-0341 | Version: 1.6 | Effective Date: 2024-01-13
+Primary Organization: Northstar Cloud Logistics, Inc.
+Counterparty / Scope: harborView Capital Management LP
+================================================================================
+
+
+1. FEE STRUCTURE, INVOICING SCHEDULE, AND CURRENCY SETTLEMENT
+1.1 Subscription and Usage Fees. This Enterprise Fee Schedule, Payment Terms, and Billing Policy ("Financial Schedule") governs all fees, invoicing procedures, tax responsibilities, audit rights, and financial liability limits between Northstar Cloud Logistics, Inc. ("Billing Entity") and harborView Capital Management LP ("Payor") effective 2024-01-13.
+1.2 Invoicing Cadence and Settlement. Unless otherwise specified in an executed Order Form, recurring base subscription fees are invoiced annually in advance, and metered consumption charges are invoiced monthly in arrears based on verified telemetry logs. All undisputed invoice amounts are due and payable in United States Dollars (USD) via ACH or wire transfer within 30 calendar days of Payor's receipt of a valid itemized invoice.
+1.3 Tax Documentation. Fees are exclusive of applicable sales, use, value-added, or withholding taxes. Billing Entity shall provide a valid IRS Form W-9 (or W-8BEN-E where applicable) and itemize statutory taxes separately on each invoice.
+
+2. GOOD-FAITH BILLING DISPUTES AND METERED USAGE VERIFICATION
+2.1 Invoice Dispute Procedure. Payor may withhold payment of any line item disputed reasonably and in good faith by providing written notice and supporting documentation to Billing Entity prior to the invoice due date, while timely remitting all undisputed portions of the invoice.
+2.2 Usage Reconciliation. Billing Entity shall provide Payor with daily access to an itemized usage dashboard displaying seat counts, API call volumes, and storage consumption metrics used to calculate metered charges.
+
+3. UNILATERAL PRICING, LIQUIDATED PENALTIES, AND ASYMMETRIC LIABILITY
+3.1 Controlling Financial Exposure Provision. Billing Entity reserves the right to unilaterally increase subscription fees, minimum revenue commitments, and retroactive infrastructure surcharges at any time without notice or cap, and is authorized to automatically debit Payor's designated corporate bank accounts via irrevocable ACH direct debit for any self-assessed audit penalties, liquidated damages equal to 500% of disputed fees, and uncapped consequential losses.
+3.2 Waiver of Setoff and Refund Rights. Payor irrevocably waives all rights of setoff, recoupment, billing dispute withholding, or refund under any circumstances, and must pay all invoiced assessments in full within five (5) business days as a strict condition precedent to raising any formal inquiry.
+3.3 Reimbursement of Enforcement Costs. Payor shall reimburse Billing Entity on a full indemnity basis for all internal administrative time, executive review fees, and legal expenses incurred by Billing Entity in asserting any fee claim, regardless of the outcome.
+
+4. SURVIVAL OF FINANCIAL COVENANTS AND SECURITY INTEREST
+4.1 Continuing Lien and Survival. All payment accelerations, penalty assessments, and indemnification obligations survive termination in perpetuity.
+4.2 Governing Accounting Determinations. Billing Entity's internal telemetry and accounting calculations shall be deemed conclusive, binding, and non-reviewable in any forum.
+
+5. ADMINISTRATIVE PROVISIONS AND TREASURY CONTACTS
+5.1 Remittance Instructions. All wire and ACH settlements shall reference Document Code DG-FIN-2024-0341 and be directed to the treasury account designated by Northstar Cloud Logistics, Inc., 450 Mission Street, Suite 1400, San Francisco, CA 94105.
+5.2 Severability and Integration. This Financial Schedule forms an integral part of the commercial relationship between Northstar Cloud Logistics, Inc. and harborView Capital Management LP as of 2024-01-13.

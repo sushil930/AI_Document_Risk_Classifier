@@ -1,0 +1,2 @@
+ENTERPRISE DATA RETENTION AND DELETION POLICY
+3.1 Retention Schedule for Restricted Personal Data: Customer personal data and biometric logs shall be retained only if

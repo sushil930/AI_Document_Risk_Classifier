@@ -1,0 +1,32 @@
+INTERNAL & EXTERNAL GOVERNANCE MEMORANDUM
+TO: SilverOak Hospitality & Resorts, Inc. Stakeholders & Operations Review Board
+FROM: Office of Legal, Risk & Governance, Northstar Cloud Logistics, Inc.
+DATE: 2024-01-22
+SUBJECT: Enterprise Data Processing and Platform Addendum (Ref: DG-CON-2024-0197, Rev 1.6)
+--------------------------------------------------------------------------------
+
+
+1. PURPOSE, DEFINITIONS, AND SCOPE OF SERVICES
+1.1 Scope of Engagement. This Enterprise Data Processing and Platform Addendum ("Agreement") is entered into as of 2024-01-22 by and between Northstar Cloud Logistics, Inc., a Delaware corporation with principal offices at 450 Mission Street, Suite 1400, San Francisco, CA 94105 ("Provider"), and SilverOak Hospitality & Resorts, Inc., a Nevada entity located at 3960 Howard Hughes Pkwy, Suite 500, Las Vegas, NV 89169 ("Customer"). Provider shall provision, host, maintain, and support the enterprise software platform, application programming interfaces (APIs), and associated technical environments described in the applicable Order Form (collectively, the "Hosted Services").
+1.2 Permitted Users and Affiliates. Customer may authorize its employees, contractors, and designated corporate affiliates to access and use the Hosted Services solely for Customer's internal business operations. Customer remains responsible for ensuring that all Authorized Users comply with the usage parameters and security controls set forth in this Agreement.
+1.3 Service Level Commitment and Architecture. Provider shall use commercially reasonable efforts to maintain monthly platform availability of at least 99.9%, excluding scheduled maintenance windows announced at least forty-eight (48) hours in advance and force majeure events outside Provider's reasonable control. Provider shall maintain logically isolated tenant environments and redundant database replicas across geographically separated availability zones.
+
+2. CUSTOMER DATA STEWARDSHIP, SUBPROCESSORS, AND COOPERATION
+2.1 Ownership of Customer Data. As between the parties, Customer retains all right, title, and interest in and to all electronic data, records, files, and configurations submitted by or on behalf of Customer to the Hosted Services ("Customer Data").
+2.2 Subprocessor Governance. Provider shall maintain an up-to-date list of authorized third-party infrastructure and support subprocessors and shall impose written data protection obligations on each subprocessor that are no less protective than those contained in this Agreement.
+2.3 Technical Documentation and Reporting. Provider shall make available to Customer standard operational telemetry, quarterly service performance summaries, and annual third-party audit attestations (including SOC 2 Type II executive summaries) upon written request.
+
+3. TERM, RENEWAL, SERVICE CREDITS, AND TRANSITION TERMS
+3.1 Initial Subscription Commitment. This Agreement commences on 2024-01-22 and continues for an initial term of twenty-four (24) months unless earlier terminated in accordance with the express provisions herein.
+3.2 Specific Renewal, Remedy, and Transition Condition. This Agreement shall automatically renew for successive twenty-four (24) month renewal terms at Provider's then-current list price plus an automatic eight percent (8%) administrative uplift unless Customer delivers written non-renewal notice via certified mail between ninety (90) and one hundred twenty (120) days prior to the expiration of the then-current term.
+3.3 Termination for Material Breach. Either party may terminate this Agreement if the other party materially breaches a core obligation and fails to cure such breach within 30 days after receipt of written notice describing the breach in detail.
+
+4. WARRANTIES, LIABILITY CAPS, AND GENERAL GOVERNANCE
+4.1 Limited Warranty. Provider warrants that the Hosted Services will substantially conform to the applicable user documentation during the Subscription Term.
+4.2 Aggregate Liability Cap. Except for breaches of confidentiality or statutory data protection obligations, each party's aggregate liability under this Agreement is limited to the fees paid by Customer in the 12 months preceding the event giving rise to liability.
+4.3 Dispute Resolution. Any dispute arising out of this Agreement shall first be escalated to senior executives of both parties for good-faith negotiation over a fifteen (15) day period prior to initiating formal proceedings.
+
+5. CONFIDENTIALITY, COMPLIANCE, AND MISCELLANEOUS PROVISIONS
+5.1 Confidentiality Undertakings. Subject to the express license and data rights in Section 3, each party agrees to apply reasonable administrative and physical safeguards to protect non-public business information disclosed by the other party and marked as confidential.
+5.2 Force Majeure and Assignment. Neither party shall be liable for delays caused by natural disasters or governmental acts beyond reasonable control. This Agreement shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to conflict of law principles.
+5.3 Entire Agreement and Execution. This Agreement, together with its referenced Schedules and Order Forms, constitutes the entire understanding between Northstar Cloud Logistics, Inc. and SilverOak Hospitality & Resorts, Inc. regarding the subject matter hereof and supersedes all prior proposals or communications.

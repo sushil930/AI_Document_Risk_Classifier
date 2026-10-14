@@ -1,0 +1,28 @@
+COMMERCIAL & OPERATIONAL INSTRUMENT: Service Continuity, Third-Party Operational Risk, and Escalation Charter
+Instrument No.: DG-OPE-2026-0175 | Effective as of 2026-03-20 | Version 3.2
+Between: Aetheris BioAnalytics Corp. and Cascade Municipal Utilities Authority
+================================================================================
+
+
+1. OPERATIONAL SCOPE, OBJECTIVES, AND GOVERNANCE FRAMEWORK
+1.1 Purpose. This Service Continuity, Third-Party Operational Risk, and Escalation Charter ("Operational Policy") defines the operational resilience, access governance, acceptable use, change management, and escalation procedures maintained by Aetheris BioAnalytics Corp. ("Operator") supporting mission-critical workflows for Cascade Municipal Utilities Authority as of 2026-03-20.
+1.2 Covered Systems and Personnel. This Operational Policy applies to all production cloud clusters, administrative bastion hosts, CI/CD deployment pipelines, customer support tooling, and all employees, contractors, and operational personnel acting on Operator's behalf.
+1.3 Operational Ownership. The Vice President of Infrastructure Operations and the Enterprise Risk Committee oversee adherence to the controls and escalation thresholds established herein.
+
+2. CHANGE MANAGEMENT, MONITORING, AND ACCEPTABLE USE BASELINES
+2.1 Production Change Control. Standard infrastructure and application releases must pass automated integration testing, peer code review, and staging validation prior to production deployment.
+2.2 Acceptable Use Enforcement. Users and integrated systems are prohibited from introducing malicious code, bypassing rate limiters, conducting unauthorized load testing, or interfering with multi-tenant workload scheduling.
+2.3 Continuous Telemetry. Operator maintains 24x7x365 automated health checks across compute nodes, message queues, and storage arrays with real-time alerting to the Network Operations Center (NOC).
+
+3. BUSINESS CONTINUITY, ACCESS RECERTIFICATION, AND EXCEPTION GOVERNANCE
+3.1 Verified Resilience and Exception Controls. Operator maintains active-active multi-region failover with a verified Recovery Time Objective (RTO) of 8 hours and Recovery Point Objective (RPO) of 4 hours tested semi-annually, enforces quarterly access recertification, and requires dual CISO and VP approval for time-bound policy exceptions capped at fourteen (14) days.
+3.2 Tiered Incident Escalation Matrix. Severity-1 operational outages trigger immediate paging to the on-call Incident Commander within five (5) minutes, executive bridge mobilization within fifteen (15) minutes, and customer status updates every thirty (30) minutes until full restoration.
+3.3 Post-Incident Review (PIR). Within five (5) business days of resolving any Severity-1 or Severity-2 event, Operator delivers a written root-cause analysis and tracked corrective action plan to Cascade Municipal Utilities Authority.
+
+4. PRIVILEGED ACCESS, OFFBOARDING, AND ANNUAL EXERCISES
+4.1 Joiner-Mover-Leaver Controls. Employee and contractor access privileges are provisioned strictly on a least-privilege role basis and revoked automatically within one (1) hour of termination or role transfer.
+4.2 Tabletop and Failover Drills. Operator conducts full regional evacuation and database failover drills twice annually and shares executive test results with enterprise customers upon request.
+
+5. DOCUMENT GOVERNANCE AND OPERATIONAL CONTACTS
+5.1 Operational Control Reference. This document is tracked under Control ID DG-OPE-2026-0175 (Version 3.2) by the Office of Operations Governance at Aetheris BioAnalytics Corp., 120 Broadway, Suite 800, Cambridge, MA 02142.
+5.2 Effective Date. Approved and placed into operational effect as of 2026-03-20.

@@ -1,0 +1,41 @@
+Title: California Resident Notice at Collection
+Description: This document includes provisions for California residents.
+Source: https://github.com/basecamp/policies/blob/master/privacy/regulations/ccpa/index.md
+License: Creative Commons Attribution 4.0 International (CC BY 4.0) — 37signals LLC
+
+California Resident Notice at Collection
+
+If you are a California resident, the California Consumer Privacy Act, as amended by the California Privacy Rights Act of 2020 ("CCPA"), requires us to provide some additional information to California residents. This Section only applies to you if you are a California resident, although please note that this information and the rights afforded herein are the same as offered to our other users in our main Privacy Policy. This Section does not apply to personal information we collect from our employees and job applicants in their capacity as employees and job applicants, as such information practices are described in separate policies.
+
+Categories of Personal Information Collected and Disclosed:
+1. Contact information (such as your full name, phone number, email address):
+   - Purposes of use: Provide the Services; Communicate with you; Analyze use of and improve the services; With your consent; Comply with law or defend our legal rights; Security/fraud prevention.
+   - Categories of Third Parties to Which We Disclose: Affiliated entities; Service providers; Entities for legal purposes.
+   - Categories of Third Parties to Which We "Share" and "Sell" for Advertising/Analytics: We do not share/sell.
+2. Customer service interaction information (including optional surveys and when you ask for help):
+   - Purposes of use: Provide the Services; Communicate with you; Analyze use of and improve the services; With your consent; Comply with law or defend our legal rights; Security/fraud prevention.
+   - Disclosed to: Affiliated entities; Service providers; Entities for legal purposes.
+   - Shared/Sold: We do not share/sell.
+3. Product interaction information:
+   - Purposes of use: Provide the Services; Communicate with you; Analyze use of and improve the services; With your consent; Comply with law or defend our legal rights; Security/fraud prevention.
+   - Disclosed to: Affiliated entities; Service providers; Entities for legal purposes.
+   - Shared/Sold: We do not share/sell.
+4. Internet network and device information (such as mobile device information, IP address, and information about your interaction with the services):
+   - Purposes of use: Provide the Services; Analyze use of and improve the services; With your consent; Comply with law or defend our legal rights; Security/fraud prevention.
+   - Disclosed to: Affiliated entities; Service providers; Entities for legal purposes.
+   - Shared/Sold: We do not share/sell.
+5. Login information (such as your username and password):
+   - Purposes of use: Provide the Services; Comply with law or defend our legal rights; Security/fraud prevention.
+   - Disclosed to: Affiliated entities; Service providers; Entities for legal purposes.
+   - Shared/Sold: We do not share/sell.
+6. Professional or employment information (such as the name and address of the company you work for and your title):
+   - Purposes of use: Provide the Services; Communicate with you; Analyze use of and improve the services; With your consent; Comply with law or defend our legal rights; Security/fraud prevention.
+   - Disclosed to: Affiliated entities; Service providers; Entities for legal purposes.
+   - Shared/Sold: We do not share/sell.
+
+Your Choices Regarding "Sharing" and "Selling": You have the right to opt out of our sale/sharing of your personal information for purposes of online analytics and advertising. Currently, we do not sell or share your data as defined by the CCPA and we have not done so over the past 12 months from the effective date of this Privacy Policy.
+
+The CCPA also allows you to limit the use or disclosure of your "sensitive personal information" (as defined in the CCPA) if your sensitive personal information is used for certain purposes. Please note that we do not use or disclose sensitive personal information other than for business purposes for which you cannot opt out under the CCPA.
+
+Shine the Light Disclosure
+The California "Shine the Light" law gives residents of California the right under certain circumstances to request information from us regarding the manner in which we disclose certain categories of personal information (as defined in the Shine the Light law) with third parties for their direct marketing purposes. We currently do not disclose your personal information to third parties for their own direct marketing purposes.

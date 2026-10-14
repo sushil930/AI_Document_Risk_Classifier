@@ -1,0 +1,45 @@
+Title: Project Bug Bounty Instructions and Service Level Agreements (SLAs)
+Source: https://github.com/18F/bug-bounty/blob/master/project-instructions.md
+License: CC0 1.0 Universal Public Domain Dedication / U.S. Government Work
+
+Your Project's Bug Bounty
+Want to have a bug bounty for your project? This document outlines the instructions and requirement for joining.
+We aim for our bug bounties to be a win for everyone involved: the project, the researchers, and everyone that depends on our software. This means we have some rules designed to set you up for success.
+Please note that at the moment, we only have space in the program for five apps. So we may need to turn down some qualified programs.
+
+How we'll prioritize among potential participants
+If we get more than five interested programs, we'll select for more mature programs. Our partner, HackerOne, has a maturity model for vulnerability coordination that we'll use to define "mature" for these purposes.
+
+Requirements To Join
+To guarantee that your project's participation in the bug bounty program is a success, we expect you to be willing to have:
+- Dedicated staff, on a possibly rotating basis, to responding to vulnerability reports and fixing reported issues. The staff need not be security experts, but for availability, you must have two or more staff dedicated to responding and they must be reachable through #bug-bounty-partners.
+- A private GitHub repo for tracking vulnerability reports to resolution. It could be an issues-only repo, or a full code repository, but it must be private. You may use the security-incidents repo if you don't have a project-specific one. We'll ask you to track both individual vulnerabilities and more general vulnerability classes -- for example a reported cross-site scripting vulnerability must also generate a separate issue to find and fix all other related cross-site scripting vulnerabilities, and when found must also be tracked separately.
+- Methods to inform parties impacted by a reported vulnerability, which will depend on the nature of your project. For example, if your project is an interactive service, this could be a notice on the front page; if your project is a code library, this could be an update to the release notes. If your project features both or more, you must be able to inform each of your audiences.
+- Automated development practices that mitigate common classes of vulnerabilities. For example, for web apps, your project should use a framework that automatically escapes output so that input doesn't have to be manually escaped.
+- Be listed in the 18F Vulnerability Disclosure Policy. Note that this probably rules out any apps developed for partners, since we can't unilaterally take vulnerability reports for other agencies.
+- Sufficient funding and staffing for at least three months (and preferably nine months) of participation in the program.
+- Be comfortable with a fully-public bounty. Our intent is for these bounties to be fully-public (that is, open to any researcher on HackerOne's platform).
+
+SLAs Your Program Must Meet
+Projects that participate in the bug bounty program inherit an SLA: Issues must be resolved within 90 (calendar) days of being reported.
+Ideally "resolved" means "fixed" but note that "resolved" for the purposes of the bug bounty program could mean something else. For example, vulnerabilities that you determine will not be fixed within 90 days can be resolved by paying the reporter and communicating your plan. Also, note that bug bounty resolution is entirely separate from any federal policy and compliance with one does not confer compliance with the other.
+
+If you miss this SLA, that'll prompt a review of the SLA and your involvement with the bug bounty team. This review will do a few things:
+- Review this 90-day SLA with you and make sure that it is still aligned with everyone's goals. It is entirely possible that it might not be. The real world is complicated; the SLA may be an over-simplification.
+- Conduct a retrospective with the team that missed the SLA to determine the reason for missing the SLA and how to avoid it in the future. If we can't make changes to meet the SLA in the future, then participation in the bug bounty would be put on hold.
+
+The Bug Bounty Team will notify you about unresolved reports on every half-life (i.e. Day 45, 22, 11, 5, 3, 2, and 1) to help you track issues as they get closer to the SLA.
+
+Suggested timelines
+Though the 90-day SLA above is the only required timeline, we do (strongly) suggest that your program aims for faster remediation of more severe issues:
+- High severity: within 7 days
+- Medium severity: within 30 days
+
+Your Project's Participation
+Regardless of what level of maturity your project has, you can expect the following tasks to come your way:
+- Validation: As issues are reported, you'll need to review the reports to validate them. HackerOne will be performing initial triage to reproduce the issue and assign a severity. We recommend you validate issues within a week, if not daily.
+- Tracking: Once you've qualified a report as a vulnerability, you'll need to track it to its conclusion. This is especially important for lower-risk vulnerabilities as they are at high risk of not being prioritized above other work.
+- Communication: Reporters expect updates on the issues they've reported. You may also have to communicate with customers, partners, and others depending on the scope of the bug.
+
+Time Commitment And Billing
+Time spent on those bug bounty tasks should be Tocked as 411 - TTS Acq / Customer Acq / Bug Bounty, but time spent on actually resolving the issues should be Tocked to the project itself. Expect to spend on the order of 4-8 hours a week on bounty management tasks.

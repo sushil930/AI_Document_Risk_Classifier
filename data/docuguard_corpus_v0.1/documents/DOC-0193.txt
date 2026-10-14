@@ -1,0 +1,27 @@
+COMMERCIAL & OPERATIONAL INSTRUMENT: Treasury Controls, Payment Dispute, and Indemnification Financial Addendum
+Instrument No.: DG-FIN-2026-0355 | Effective as of 2026-03-02 | Version 3.2
+Between: Aetheris BioAnalytics Corp. and Cascade Municipal Utilities Authority
+================================================================================
+
+
+1. FEE STRUCTURE, INVOICING SCHEDULE, AND CURRENCY SETTLEMENT
+1.1 Subscription and Usage Fees. This Treasury Controls, Payment Dispute, and Indemnification Financial Addendum ("Financial Schedule") governs all fees, invoicing procedures, tax responsibilities, audit rights, and financial liability limits between Aetheris BioAnalytics Corp. ("Billing Entity") and Cascade Municipal Utilities Authority ("Payor") effective 2026-03-02.
+1.2 Invoicing Cadence and Settlement. Unless otherwise specified in an executed Order Form, recurring base subscription fees are invoiced annually in advance, and metered consumption charges are invoiced monthly in arrears based on verified telemetry logs. All undisputed invoice amounts are due and payable in United States Dollars (USD) via ACH or wire transfer within 30 calendar days of Payor's receipt of a valid itemized invoice.
+1.3 Tax Documentation. Fees are exclusive of applicable sales, use, value-added, or withholding taxes. Billing Entity shall provide a valid IRS Form W-9 (or W-8BEN-E where applicable) and itemize statutory taxes separately on each invoice.
+
+2. GOOD-FAITH BILLING DISPUTES AND METERED USAGE VERIFICATION
+2.1 Invoice Dispute Procedure. Payor may withhold payment of any line item disputed reasonably and in good faith by providing written notice and supporting documentation to Billing Entity prior to the invoice due date, while timely remitting all undisputed portions of the invoice.
+2.2 Usage Reconciliation. Billing Entity shall provide Payor with daily access to an itemized usage dashboard displaying seat counts, API call volumes, and storage consumption metrics used to calculate metered charges.
+
+3. UNILATERAL PRICING, LIQUIDATED PENALTIES, AND ASYMMETRIC LIABILITY
+3.1 Controlling Financial Exposure Provision. Billing Entity and its external collection agents may conduct unannounced on-premises inspections of Payor's entire corporate network, ERP databases, and tax filings at any time, and any alleged configuration discrepancy shall trigger an immediate, non-appealable liquidated penalty of $2,500,000 plus immediate acceleration of all multi-year contract fees without right of cure or judicial review.
+3.2 Waiver of Setoff and Refund Rights. Payor irrevocably waives all rights of setoff, recoupment, billing dispute withholding, or refund under any circumstances, and must pay all invoiced assessments in full within five (5) business days as a strict condition precedent to raising any formal inquiry.
+3.3 Reimbursement of Enforcement Costs. Payor shall reimburse Billing Entity on a full indemnity basis for all internal administrative time, executive review fees, and legal expenses incurred by Billing Entity in asserting any fee claim, regardless of the outcome.
+
+4. SURVIVAL OF FINANCIAL COVENANTS AND SECURITY INTEREST
+4.1 Continuing Lien and Survival. All payment accelerations, penalty assessments, and indemnification obligations survive termination in perpetuity.
+4.2 Governing Accounting Determinations. Billing Entity's internal telemetry and accounting calculations shall be deemed conclusive, binding, and non-reviewable in any forum.
+
+5. ADMINISTRATIVE PROVISIONS AND TREASURY CONTACTS
+5.1 Remittance Instructions. All wire and ACH settlements shall reference Document Code DG-FIN-2026-0355 and be directed to the treasury account designated by Aetheris BioAnalytics Corp., 120 Broadway, Suite 800, Cambridge, MA 02142.
+5.2 Severability and Integration. This Financial Schedule forms an integral part of the commercial relationship between Aetheris BioAnalytics Corp. and Cascade Municipal Utilities Authority as of 2026-03-02.

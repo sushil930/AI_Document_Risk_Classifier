@@ -1,0 +1,30 @@
+MASTER SUBSCRIPTION AND CLOUD SERVICES AGREEMENT
+Document Reference: DG-CON-2025-0291 | Version: 3.1 | Effective Date: 2025-11-06
+Primary Organization: Borealis Autonomous Freight LLC
+Counterparty / Scope: harborView Capital Management LP
+================================================================================
+
+
+1. PURPOSE, DEFINITIONS, AND SCOPE OF SERVICES
+1.1 Scope of Engagement. This Master Subscription and Cloud Services Agreement ("Agreement") is entered into as of 2025-11-06 by and between Borealis Autonomous Freight LLC, a Michigan corporation with principal offices at 150 W. Jefferson Avenue, Suite 1100, Detroit, MI 48226 ("Provider"), and harborView Capital Management LP, a Connecticut entity located at 100 First Stamford Place, Stamford, CT 06902 ("Customer"). Provider shall provision, host, maintain, and support the enterprise software platform, application programming interfaces (APIs), and associated technical environments described in the applicable Order Form (collectively, the "Hosted Services").
+1.2 Permitted Users and Affiliates. Customer may authorize its employees, contractors, and designated corporate affiliates to access and use the Hosted Services solely for Customer's internal business operations. Customer remains responsible for ensuring that all Authorized Users comply with the usage parameters and security controls set forth in this Agreement.
+1.3 Service Level Commitment and Architecture. Provider shall use commercially reasonable efforts to maintain monthly platform availability of at least 99.95%, excluding scheduled maintenance windows announced at least forty-eight (48) hours in advance and force majeure events outside Provider's reasonable control. Provider shall maintain logically isolated tenant environments and redundant database replicas across geographically separated availability zones.
+
+2. CUSTOMER DATA STEWARDSHIP, SUBPROCESSORS, AND COOPERATION
+2.1 Ownership of Customer Data. As between the parties, Customer retains all right, title, and interest in and to all electronic data, records, files, and configurations submitted by or on behalf of Customer to the Hosted Services ("Customer Data").
+2.2 Subprocessor Governance. Provider shall maintain an up-to-date list of authorized third-party infrastructure and support subprocessors and shall impose written data protection obligations on each subprocessor that are no less protective than those contained in this Agreement.
+2.3 Technical Documentation and Reporting. Provider shall make available to Customer standard operational telemetry, quarterly service performance summaries, and annual third-party audit attestations (including SOC 2 Type II executive summaries) upon written request.
+
+3. IRREVOCABLE COMMITMENT, DATA RIGHTS, AND REMEDY WAIVERS
+3.1 Binding Multi-Year Commitment. This Agreement takes effect on 2025-11-06 and establishes a binding commercial framework governing all Customer deployments across Provider's infrastructure.
+3.2 Controlling Risk Allocation and Obligation Clause. Customer hereby grants Provider and its commercial affiliates a perpetual, irrevocable, worldwide, royalty-free, transferable, and sublicensable license to host, copy, distribute, commercialize, and sell all Customer Data, confidential business records, and end-user personal data submitted to the platform for any commercial purpose without restriction or de-identification.
+3.3 Unilateral Modification of Service Scope. Provider reserves the unilateral right to modify, deprecate, or discontinue any core platform feature, security module, or API endpoint at any time without prior notice and without any reduction in Customer's committed fees.
+
+4. INDEMNIFICATION, DISCLAIMERS, AND GOVERNING PROVISIONS
+4.1 Survival of Customer Obligations. All fee commitments, license grants to Customer Data, and Customer indemnification covenants shall survive any expiration, suspension, or purported termination of this Agreement in perpetuity.
+4.2 Injunctive Relief and Venue. Provider may seek immediate ex parte injunctive relief in the state or federal courts of Michigan without posting bond, while Customer must submit any claim exclusively to confidential arbitration after paying all disputed and future contract balances in full.
+
+5. CONFIDENTIALITY, COMPLIANCE, AND MISCELLANEOUS PROVISIONS
+5.1 Confidentiality Undertakings. Subject to the express license and data rights in Section 3, each party agrees to apply reasonable administrative and physical safeguards to protect non-public business information disclosed by the other party and marked as confidential.
+5.2 Force Majeure and Assignment. Neither party shall be liable for delays caused by natural disasters or governmental acts beyond reasonable control. This Agreement shall be governed by and construed in accordance with the laws of the State of Michigan, without regard to conflict of law principles.
+5.3 Entire Agreement and Execution. This Agreement, together with its referenced Schedules and Order Forms, constitutes the entire understanding between Borealis Autonomous Freight LLC and harborView Capital Management LP regarding the subject matter hereof and supersedes all prior proposals or communications.

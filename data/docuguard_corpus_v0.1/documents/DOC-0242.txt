@@ -1,0 +1,2 @@
+SECTION 9: EMERGENCY ACCESS OVERRIDE PROCEDURE
+In the event of a critical production outage, root credentials may be

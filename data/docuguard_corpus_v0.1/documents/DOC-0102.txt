@@ -1,0 +1,46 @@
+Title: Creative Commons Master Privacy Policy and Data Usage Policy
+Source: https://github.com/creativecommons/policies/blob/master/privacy.md
+License: CC0 1.0 Universal Public Domain Dedication
+
+Preamble
+This Master Privacy Policy ("Privacy Policy") explains the collection, use, and disclosure of "personal information" by Creative Commons Corporation ("CC" or "Creative Commons"), a Massachusetts Corporation. Unless otherwise noted on a particular site or service, this Privacy Policy applies to your use of all websites that Creative Commons operates, including http://creativecommons.org, wiki.creativecommons.org, openpolicynetwork.org, open4us.org, teamopen.cc, donate.creativecommons.org, thepowerofopen.org, and http://creativecommons.net (the "ccNet Website"), (collectively, the "Websites"), as well as the products, information, and services provided through the Websites, including the license chooser, legal tools, the CCID account system, and the CC OpenID service (together with the Websites, the "Services").
+
+This Privacy Policy also explains our commitment to you with respect to our use and disclosure of non personal browsing and site usage data that Creative Commons collects as the provider of the Services. That commitment is contained in a "Data Usage Policy," below.
+
+Our Principles
+Creative Commons is committed to handling responsibly the information and data we collect about you through our Services, whether personal information or non personal browsing and site usage data. We have designed our Privacy Policy and our Data Usage Policy consistent with the following principles (the "Principles"):
+1. Privacy policies and data collection and use policies should be human readable, comprehensive, and easy to locate;
+2. Only the minimum amount of information reasonably necessary to provide you with services should be collected and maintained, and only for so long as reasonably needed or required;
+3. Information you provide through our Services, or that we gather as a result of your use of our Services, should not be used for marketing or advertising purposes, nor should it be provided voluntarily (without your permission) to anyone else unless required; and
+4. If Creative Commons is required to provide a third party with your personal information (whether by subpoena or otherwise), then provided we have collected and retained an email address for you, Creative Commons will use reasonable means to notify you promptly of that event, unless prohibited by law or CC is otherwise advised not to notify you on the advice of legal counsel.
+
+Personal Information CC Collects
+We may collect personal information through our Services, including without limitation:
+- in connection with your selection of one of our licenses or legal tools including CC0 or the Public Domain Mark;
+- when you provide us with your personal information such as by sending an email to us or signing up to receive updates from Creative Commons;
+- when you subscribe to one of our email discussion lists;
+- when you donate money to us or purchase merchandise;
+- when you create a CCID account (a universal log-in for all Services);
+- when you join and use the Creative Commons network through our ccNet Website, and/or establish a Creative Commons OpenID; and
+- when you provide personal information in connection with your participation in any of the forums we make available through our Services.
+
+Disclosures of Personal Information
+In general, it is not Creative Commons' practice to disclose personal information to third parties. Other than providing you with attribution using your CCID nickname in connection with your CC-licensed works, we may share your personal information in two instances:
+First, Creative Commons may share personal information with our contractors and service providers in order to maintain, enhance, or add to the functionality of the Services.
+Second, we may disclose your personal information to third parties in a good faith belief that such disclosure is reasonably necessary to (a) take action regarding suspected illegal activities; (b) enforce or apply our Master Terms of Use and Privacy Policy; (c) comply with legal process, such as a search warrant, subpoena, statute, or court order; or (d) protect our rights, reputation, and property, or that of our users, affiliates, or the public.
+
+Security of Personal Information Collected via the Services
+Creative Commons has implemented reasonable measures to protect against unauthorized access to and unlawful interception or processing of personal information that Creative Commons stores and controls. However, no website can fully eliminate security risks. Third parties may circumvent our security measures to unlawfully intercept or access transmissions or private communications. We will post a reasonably prominent notice to the Websites if any such security breach occurs.
+OpenID, including Creative Commons OpenID services, and the CCID account system have security risks in addition to those described above. Among other things, OpenID and CCID are vulnerable to DNS attacks, and using OpenID and CCID may increase the risk of phishing.
+
+Data Usage Policy: Non Personal Browsing and Site Usage Information
+No Linking: We do not intentionally link browsing information or information from our OpenID or CCID server logs to the personal information you submit to us.
+No Selling or Sharing: Except in the unique situations identified in this Privacy Policy, Creative Commons does not sell or otherwise voluntarily provide the non personal browsing information we collect about you or your website usage to third parties.
+No Access: As an OpenID and CCID service provider, CC could technically access your web-based account tied to our OpenID or CCID service, and could log in on behalf of any of its OpenID or CCID users to any of the accounts they have accessed using their Creative Commons OpenID or CCID. Creative Commons will never use this technical login ability for any purpose unless otherwise required by law.
+No Retention: CC discards non personal browsing information from our OpenID and CCID server logs once we have used the information for the limited purposes noted above, under "No Linking."
+
+Reorganization or Spin-Offs
+Creative Commons may transfer some or all of your personal and/or non personal browsing information to a third party as a result of a reorganization, spin-off, or similar transaction. Upon such transfer, the acquirer's privacy policy will apply. In such event, Creative Commons will use reasonable efforts to notify you and to ensure that at the time of the transaction the acquirer's privacy policy complies with the Principles.
+
+Using this Privacy Policy for Your Own Purposes
+The Creative Commons Privacy Policy is dedicated to the public domain under the Creative Commons CC0 Public Domain Dedication. You are free to use and adapt this Privacy Policy and any applicable Supplemental Privacy Policy Terms for your own purposes.

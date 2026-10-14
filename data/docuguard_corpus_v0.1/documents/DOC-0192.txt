@@ -1,0 +1,26 @@
+Title: CFPB Pre-Release Open Source Compliance, PII, and Security Checklist
+Source: https://github.com/cfpb/open-source-project-template/blob/master/opensource-checklist.md
+License: CC0 1.0 Universal Public Domain Dedication / U.S. Government Work
+
+Open Source Check List
+Prior to releasing a project to GitHub.com, walk through these items and ensure they are addressed.
+
+1. Has PII been removed?
+   - Use Clouseau for scanning source code.
+   - For an Open Source Release, attach the Clouseau output.
+   - If there are images, visually inspect each image to ensure there is no CFPB-specific information.
+2. Have security vulnerabilities been remediated?
+   - Use the OWASP Top 10
+   - National Vulnerability Database
+   - SANS Swat Checklist
+3. Are we including any other open source products? If so, is there any conflict with our public domain release?
+4. Is our TERMS.md included?
+5. Is a CHANGELOG.md present and does it contain structured, consistently formatted recent history?
+6. Are instructions for contributing included (CONTRIBUTING.md)?
+7. Are installation instructions clearly written in the README and tested on a clean machine?
+8. Are all dependencies described in the README, requirements.txt, and/or buildout.cfg?
+9. Are the API docs generated?
+10. Are there unit tests?
+11. If applicable and possible, is it set up in TravisCI?
+12. Have multiple people reviewed the code?
+13. Is there a screenshot in the README, if applicable?

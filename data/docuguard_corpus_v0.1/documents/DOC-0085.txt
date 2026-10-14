@@ -1,0 +1,34 @@
+Title: Code.gov Internal Project Access Control and Security Monitoring Procedures
+Source: https://github.com/GSA/code-gov/blob/master/docs/procedures.md
+License: CC0 1.0 Universal Public Domain Dedication / U.S. Government Work (De-identified individual system owner name)
+
+This document is to memorialize internal project procedures. Other agencies or teams not at GSA are free to adopt them as well, but don't have to in order to use the software.
+
+Cloud.gov Access
+The System owner and current project developers need cloud.gov access to the code.gov API. The system owner (currently [REDACTED_SYSTEM_OWNER]) manages this access, granting access to new project developers when they come onboard and removing access when they leave.
+Specifically, current developers are granted OrgManager rights to gsa-code-gov and SpaceDeveloper rights to each of the projects spaces.
+These accounts are created for developers that need access to contribute code and debug apps. The system owner will send an invite from Cloud.gov to the new user's GSA government email address.
+1. Create an account with Cloud.gov from the invite. This will need to include multi-factor authentication with Google Authenticator or Authy.
+2. Make sure you have gitseekrets installed on your Mac or in your virtualbox, if that is where you do your development.
+3. Then, you will want to contact the system owner, currently [REDACTED_SYSTEM_OWNER]. In that message, confirm you have two-factor authentication on and have installed gitseekrets.
+4. The system owner will confirm the GSA identity of the applicant and add a person to the gsa-code-gov organization in cloud.gov, documenting what role was assigned.
+
+GitHub Access
+The System owner and current project developers need commit rights to code.gov project repositories. The system owner manages this access, granting access to new project developers when they come onboard and removing access when they leave.
+These accounts are created for developers that need access to contribute code and deploy apps.
+Create an account with GitHub and enable multi factor authentication. Make sure you have gitseekrets installed on your Mac or in your virtualbox, if that is where you do your development. (If you are a Windows only user, you can be exempt from this requirement while the Windows version is in development.) Then, you will want to contact the system owner. In that message, include your name, the name of your supervisor, confirm you have two-factor authentication on and have installed gitseekrets. The system owner will then send a request to gsa-github.support@gsa.gov to add the user to the GSA org on GitHub. Once that is complete the system owner will then add them to the GSA/code-gov and GSA/code-gov-dev-team GitHub teams.
+
+Weekly Monitoring Checklist
+The development team checks for security events weekly. These checks are logged in a Trello card. Any unusual or suspicious activities are immediately brought to the team's attention in the project slack channel (#code-gov-partners) and the system owner coordinates appropriate investigation and followup. The team will follow the 18F incident response handbook.
+
+Checklist:
+- Create an issue in the project's issue tracker to track this Security Event Review.
+- Review New Relic for all alerts flagged with 'red' flags.
+- Review production logs for unapproved and unusual activities.
+- Review actionable security events on production logs for successful and unsuccessful account logon events, account management events, object access, policy change, privilege functions, process tracking, system events, all administrator activity, authentication checks, authorization checks, data deletions, data access, data changes, and permission changes.
+- Deactivate any cloud.gov and GitHub access for people who have left the team.
+- Note any findings in the Security Event Review issue.
+- Close the Security Event Review issue.
+
+Monitoring of New Relic Alerts
+New Relic alerts are emailed to the full development team immediately. The first team member to see the alert checks the site's status and posts in the project slack channel (#code-gov-partners) the results. The system owner then coordinates any necessary followup.

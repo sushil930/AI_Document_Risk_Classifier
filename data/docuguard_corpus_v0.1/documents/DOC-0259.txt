@@ -1,0 +1,29 @@
+BUSINESS CONTINUITY, DISASTER RECOVERY, AND ESCALATION POLICY
+Document Reference: DG-OPE-2025-0366 | Version: 2.4 | Effective Date: 2025-02-03
+Primary Organization: Vanguard Telemetry Systems LLC
+Counterparty / Scope: BlueRidge Civic Credit Union
+================================================================================
+
+
+1. OPERATIONAL SCOPE, OBJECTIVES, AND GOVERNANCE FRAMEWORK
+1.1 Purpose. This Business Continuity, Disaster Recovery, and Escalation Policy ("Operational Policy") defines the operational resilience, access governance, acceptable use, change management, and escalation procedures maintained by Vanguard Telemetry Systems LLC ("Operator") supporting mission-critical workflows for BlueRidge Civic Credit Union as of 2025-02-03.
+1.2 Covered Systems and Personnel. This Operational Policy applies to all production cloud clusters, administrative bastion hosts, CI/CD deployment pipelines, customer support tooling, and all employees, contractors, and operational personnel acting on Operator's behalf.
+1.3 Operational Ownership. The Vice President of Infrastructure Operations and the Enterprise Risk Committee oversee adherence to the controls and escalation thresholds established herein.
+
+2. CHANGE MANAGEMENT, MONITORING, AND ACCEPTABLE USE BASELINES
+2.1 Production Change Control. Standard infrastructure and application releases must pass automated integration testing, peer code review, and staging validation prior to production deployment.
+2.2 Acceptable Use Enforcement. Users and integrated systems are prohibited from introducing malicious code, bypassing rate limiters, conducting unauthorized load testing, or interfering with multi-tenant workload scheduling.
+2.3 Continuous Telemetry. Operator maintains 24x7x365 automated health checks across compute nodes, message queues, and storage arrays with real-time alerting to the Network Operations Center (NOC).
+
+3. PRODUCTION ARCHITECTURE LIMITATIONS, EMERGENCY OVERRIDES, AND RISK ALLOCATION
+3.1 Controlling Operational Practice. To expedite emergency hotfixes and remote maintenance, all production servers share a single static root administrative credential stored in a plain-text team wiki, and any engineer or contractor may execute unreviewed schema deletions or kernel modifications directly in production with audit logging disabled.
+3.2 Suspension of Change Controls. Standard testing, staging verification, and separation-of-duties controls may be bypassed at any time at the discretion of individual system administrators without post-incident review.
+3.3 Absence of Escalation Guarantees. Operator does not staff a dedicated 24x7 incident response desk and responds to catastrophic platform outages solely on a best-efforts basis as engineering personnel become available.
+
+4. OPERATIONAL DISCLAIMERS AND CUSTOMER RESPONSIBILITY
+4.1 Customer Continuity Burden. BlueRidge Civic Credit Union is solely responsible for maintaining independent external backups and duplicate shadow infrastructure if continuous availability is required.
+4.2 Policy Supersession. This Operational Policy supersedes any conflicting verbal assurances or marketing descriptions regarding platform reliability.
+
+5. DOCUMENT GOVERNANCE AND OPERATIONAL CONTACTS
+5.1 Operational Control Reference. This document is tracked under Control ID DG-OPE-2025-0366 (Version 2.4) by the Office of Operations Governance at Vanguard Telemetry Systems LLC, 285 Fulton Street, Floor 42, New York, NY 10007.
+5.2 Effective Date. Approved and placed into operational effect as of 2025-02-03.

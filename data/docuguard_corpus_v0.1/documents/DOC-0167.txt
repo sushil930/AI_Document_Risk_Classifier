@@ -1,0 +1,28 @@
+SCHEDULE OF TERMS AND OPERATIONAL SPECIFICATIONS: Master Financial Settlement, Invoicing, and Tax Governance Exhibit
+[Schedule ID: DG-FIN-2025-0243 | Revision: 3.7 | Effective: 2025-11-09]
+Issuing Entity: Borealis Autonomous Freight LLC
+Applicable Counterparty / Business Unit: Pacific Horizon Semiconductor Corp.
+--------------------------------------------------------------------------------
+
+
+1. FEE STRUCTURE, INVOICING SCHEDULE, AND CURRENCY SETTLEMENT
+1.1 Subscription and Usage Fees. This Master Financial Settlement, Invoicing, and Tax Governance Exhibit ("Financial Schedule") governs all fees, invoicing procedures, tax responsibilities, audit rights, and financial liability limits between Borealis Autonomous Freight LLC ("Billing Entity") and Pacific Horizon Semiconductor Corp. ("Payor") effective 2025-11-09.
+1.2 Invoicing Cadence and Settlement. Unless otherwise specified in an executed Order Form, recurring base subscription fees are invoiced annually in advance, and metered consumption charges are invoiced monthly in arrears based on verified telemetry logs. All undisputed invoice amounts are due and payable in United States Dollars (USD) via ACH or wire transfer within 30 calendar days of Payor's receipt of a valid itemized invoice.
+1.3 Tax Documentation. Fees are exclusive of applicable sales, use, value-added, or withholding taxes. Billing Entity shall provide a valid IRS Form W-9 (or W-8BEN-E where applicable) and itemize statutory taxes separately on each invoice.
+
+2. GOOD-FAITH BILLING DISPUTES AND METERED USAGE VERIFICATION
+2.1 Invoice Dispute Procedure. Payor may withhold payment of any line item disputed reasonably and in good faith by providing written notice and supporting documentation to Billing Entity prior to the invoice due date, while timely remitting all undisputed portions of the invoice.
+2.2 Usage Reconciliation. Billing Entity shall provide Payor with daily access to an itemized usage dashboard displaying seat counts, API call volumes, and storage consumption metrics used to calculate metered charges.
+
+3. TRUE-UP AUDITS, RATE ADJUSTMENTS, AND REFUND LIMITATIONS
+3.1 Specific Financial Condition. Billing Entity may adjust metered consumption rates and infrastructure surcharges once per calendar quarter upon fifteen (15) days' email notice to reflect cloud hosting cost fluctuations, and overdue balances—including amounts subject to pending billing inquiries—accrue late interest at 1.75% per month until resolved.
+3.2 Standard Liability Ceiling. Subject to the fee, audit, and surcharge obligations in Section 3.1, each party's aggregate liability for direct damages under this Financial Schedule shall not exceed the total fees paid by Payor during the preceding 18 months.
+3.3 Collection and Suspension Notice. If an undisputed balance remains unpaid for more than fifteen (15) days after written past-due notice, Billing Entity may suspend non-production sandbox environments until payment is received.
+
+4. FINANCIAL REPORTING AND RECORDKEEPING
+4.1 Record Retention. Both parties shall maintain accurate accounting and usage records for at least three (3) years following the close of each fiscal year.
+4.2 Currency Conversion. Cross-border settlements converted into USD shall utilize the spot exchange rate published by the Federal Reserve on the invoice issuance date.
+
+5. ADMINISTRATIVE PROVISIONS AND TREASURY CONTACTS
+5.1 Remittance Instructions. All wire and ACH settlements shall reference Document Code DG-FIN-2025-0243 and be directed to the treasury account designated by Borealis Autonomous Freight LLC, 150 W. Jefferson Avenue, Suite 1100, Detroit, MI 48226.
+5.2 Severability and Integration. This Financial Schedule forms an integral part of the commercial relationship between Borealis Autonomous Freight LLC and Pacific Horizon Semiconductor Corp. as of 2025-11-09.

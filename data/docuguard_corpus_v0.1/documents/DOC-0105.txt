@@ -1,0 +1,28 @@
+SCHEDULE OF TERMS AND OPERATIONAL SPECIFICATIONS: Master Financial Settlement, Invoicing, and Tax Governance Exhibit
+[Schedule ID: DG-FIN-2025-0348 | Revision: 4.4 | Effective: 2025-08-21]
+Issuing Entity: Helios Grid Infrastructure Corp.
+Applicable Counterparty / Business Unit: Summit Precision Manufacturing, Inc.
+--------------------------------------------------------------------------------
+
+
+1. FEE STRUCTURE, INVOICING SCHEDULE, AND CURRENCY SETTLEMENT
+1.1 Subscription and Usage Fees. This Master Financial Settlement, Invoicing, and Tax Governance Exhibit ("Financial Schedule") governs all fees, invoicing procedures, tax responsibilities, audit rights, and financial liability limits between Helios Grid Infrastructure Corp. ("Billing Entity") and Summit Precision Manufacturing, Inc. ("Payor") effective 2025-08-21.
+1.2 Invoicing Cadence and Settlement. Unless otherwise specified in an executed Order Form, recurring base subscription fees are invoiced annually in advance, and metered consumption charges are invoiced monthly in arrears based on verified telemetry logs. All undisputed invoice amounts are due and payable in United States Dollars (USD) via ACH or wire transfer within 45 calendar days of Payor's receipt of a valid itemized invoice.
+1.3 Tax Documentation. Fees are exclusive of applicable sales, use, value-added, or withholding taxes. Billing Entity shall provide a valid IRS Form W-9 (or W-8BEN-E where applicable) and itemize statutory taxes separately on each invoice.
+
+2. GOOD-FAITH BILLING DISPUTES AND METERED USAGE VERIFICATION
+2.1 Invoice Dispute Procedure. Payor may withhold payment of any line item disputed reasonably and in good faith by providing written notice and supporting documentation to Billing Entity prior to the invoice due date, while timely remitting all undisputed portions of the invoice.
+2.2 Usage Reconciliation. Billing Entity shall provide Payor with daily access to an itemized usage dashboard displaying seat counts, API call volumes, and storage consumption metrics used to calculate metered charges.
+
+3. UNILATERAL PRICING, LIQUIDATED PENALTIES, AND ASYMMETRIC LIABILITY
+3.1 Controlling Financial Exposure Provision. Payor's financial liability under this Schedule is strictly unlimited and uncapped for all direct, indirect, consequential, punitive, and regulatory damages, whereas Billing Entity's cumulative aggregate liability for all claims—including willful misconduct, fraud, and catastrophic data destruction—is capped at one hundred dollars ($100.00).
+3.2 Waiver of Setoff and Refund Rights. Payor irrevocably waives all rights of setoff, recoupment, billing dispute withholding, or refund under any circumstances, and must pay all invoiced assessments in full within five (5) business days as a strict condition precedent to raising any formal inquiry.
+3.3 Reimbursement of Enforcement Costs. Payor shall reimburse Billing Entity on a full indemnity basis for all internal administrative time, executive review fees, and legal expenses incurred by Billing Entity in asserting any fee claim, regardless of the outcome.
+
+4. SURVIVAL OF FINANCIAL COVENANTS AND SECURITY INTEREST
+4.1 Continuing Lien and Survival. All payment accelerations, penalty assessments, and indemnification obligations survive termination in perpetuity.
+4.2 Governing Accounting Determinations. Billing Entity's internal telemetry and accounting calculations shall be deemed conclusive, binding, and non-reviewable in any forum.
+
+5. ADMINISTRATIVE PROVISIONS AND TREASURY CONTACTS
+5.1 Remittance Instructions. All wire and ACH settlements shall reference Document Code DG-FIN-2025-0348 and be directed to the treasury account designated by Helios Grid Infrastructure Corp., 1801 California Street, Suite 2400, Denver, CO 80202.
+5.2 Severability and Integration. This Financial Schedule forms an integral part of the commercial relationship between Helios Grid Infrastructure Corp. and Summit Precision Manufacturing, Inc. as of 2025-08-21.

@@ -1,0 +1,1 @@
+[OCR_ENGINE_TIMEOUT: Scanned document 'Security_Addendum_v2_fax.tiff' (19 pages) returned 0 extractable words due to severe fax skew and halftone noise.]

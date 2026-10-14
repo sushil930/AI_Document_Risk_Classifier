@@ -1,0 +1,1 @@
+[SCANNED_IMAGE_PDF_NO_TEXT_LAYER: Pages 1-22 detected as 300dpi TIFF raster images without embedded searchable text or OCR layer. File: Vendor_MSA_Signed_Scan_2025.pdf]

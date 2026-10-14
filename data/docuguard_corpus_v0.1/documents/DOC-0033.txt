@@ -1,0 +1,57 @@
+Title: Privacy Policy
+Description: The privacy of your data — and it is your data, not ours! — is a big deal to us. Here's the rundown of what we collect and why, when we access your information, and your rights.
+Source: https://github.com/basecamp/policies/blob/master/privacy/index.md
+License: Creative Commons Attribution 4.0 International (CC BY 4.0) — 37signals LLC
+
+Privacy policy
+Last updated: April 20, 2023
+
+The privacy of your data—and it is your data, not ours!—is a big deal to us. In this policy, we lay out: what data we collect and why; how your data is handled; and your rights with respect to your data. We promise we never sell your data: never have, never will.
+
+This policy applies to all products built and maintained by 37signals LLC including Basecamp (all versions), HEY, Highrise, Campfire, Backpack, Ta-da List, and Writeboard (together, "37signals"). If you are applying for a job at 37signals, please review our Recruitment Privacy policy.
+
+This policy applies to our handling of information about site visitors, prospective customers, and customers and authorized users (in relation to their procurement of the services and management of their relationship with 37signals). We refer collectively to these categories of individuals as "you" throughout this policy.
+
+However, this policy does not cover information about a customer's end users that 37signals receives from a customer, or otherwise processes on a customer's behalf, in connection with the services provided by 37signals to the customer pursuant to an applicable services agreement (including the content of messages of customer end users ("End User Communications")). 37signals processes End User Communications under the instructions of the relevant customer, which is the "data controller" or "business" (or occupies a similar role as defined in applicable privacy laws), as described in the applicable services agreement between such customer and 37signals.
+
+What we collect and why
+Our guiding principle is to collect only what we need. Here's what that means in practice:
+
+Identity and access
+When you sign up for a 37signals product, we ask for identifying information such as your name, email address, and maybe a company name. That's so you can personalize your new account, and we can send you product updates and other essential information. We'll never sell your personal information to third parties, and we won't use your name or company in marketing statements without your permission either.
+
+Billing information
+If you sign up for a paid 37signals product, you will be asked to provide your payment information and billing address. Credit card information is submitted directly to our payment processor and doesn't hit 37signals servers. We store a record of the payment transaction, including the last 4 digits of the credit card number, for purposes of account history, invoicing, and billing support.
+
+Product interactions
+We store on our servers the content that you upload or receive or maintain in your 37signals product accounts. We keep this content as long as your account is active. If you delete your account, we'll delete the content within 60 days.
+
+General Geolocation data
+For most of our products, we log the full IP address used to sign up a product account and retain that for use in mitigating future spammy signups. We also log all account access by full IP address for security and fraud prevention purposes, and we keep this login data for as long as your product account is active.
+
+Website interactions
+We collect information about your browsing activity for analytics and statistical purposes such as conversion rate testing and experimenting with new product designs. If you have an account and are signed in, these web analytics data are tied to your IP address and user account until your account is no longer active.
+
+Advertising and Cookies
+37signals runs contextual ads on various third-party platforms such as Google, Reddit, and LinkedIn. Users who click on one of our ads will be sent to the Basecamp marketing site. Where permissible under law, we may load an ad-company script on their browsers that sets a third-party cookie and sends information to the ad network to enable evaluation of the effectiveness of our ads. We also use persistent first-party cookies and some third-party cookies to store certain preferences, make it easier for you to use our applications, and perform A/B testing as well as support some analytics.
+
+When we access or disclose your information
+To provide products or services you've requested. We use some third-party subprocessors to help run our applications and provide the Services to you. No 37signals human looks at your content except for limited purposes with your express permission, for example, if an error occurs that stops an automated process from working and requires manual intervention to fix.
+
+To exclude you from seeing our ads. Where permissible by law and if you have a Basecamp account, we may disclose a one-way hash of your email address with ad companies to exclude you from seeing our ads.
+
+Aggregated and de-identified data. We may aggregate and/or de-identify information collected through the services. We may use de-identified or aggregated data for any purpose, including marketing or analytics.
+
+When required under applicable law. 37signals is a U.S. company and all data infrastructure are located in the U.S. Our policy is to not respond to government requests for user data unless we are compelled by legal process or in limited circumstances in the event of an emergency request.
+
+How we secure your data
+All data is encrypted via SSL/TLS when transmitted from our servers to your browser. The database backups are also encrypted. With regard to products other than HEY, most data are not encrypted while they live in our database (since they need to be ready to send to you when you need them). With HEY, we go further by encrypting the database at-work.
+
+What happens when you delete content in your product accounts
+Anything you trash in your product accounts while they are active will be kept in an accessible trash can for about 25 days. The trashed content may remain on our active servers for another 30 days, and copies of the content may be held in backups of our application databases for up to another 30 days after that. Altogether, any content trashed in your product accounts should be purged from all of our systems and logs within 90 days. If you choose to cancel your account, your content will become immediately inaccessible and should be purged from our systems in full within 60 days.
+
+Data retention
+We keep your information for the time necessary for the purposes for which it is processed. The length of time for which we retain information depends on the purposes for which we collected and use it and your choices, after which time we may delete and/or aggregate it. We may also retain and use this information as necessary to comply with our legal obligations, resolve disputes, and enforce our agreements.
+
+When transferring personal data from the EU
+37signals has adopted a data processing addendum with Standard Contractual Clauses to help ensure this protection. There are also a few ad hoc cases where EU personal data may be transferred to the U.S. in connection with 37signals operations, for instance, if an EU user signs up for our newsletter or participates in one of our surveys or buys swag from our company online store. Such transfers are only occasional and data is transferred under the Article 49(1)(b) derogation under GDPR and the UK version of GDPR.

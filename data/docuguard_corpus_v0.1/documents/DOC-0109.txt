@@ -1,0 +1,24 @@
+Title: GSA Open Source Code Pre-Release Security, PII, and Licensing Checklist
+Source: https://github.com/GSA/open-source-policy/blob/master/OpenSource_code/open_source_checklist.md
+License: CC0 1.0 Universal Public Domain Dedication / U.S. Government Work
+
+Open source checklist
+Before going live with a public repository, the following considerations should be taken:
+1. Remove all PII:
+   - Use Clouseau for scanning source code, pre-commit
+   - Visually inspect each image to ensure there is no GSA-specific information
+2. Remove all potential security information:
+   - Passwords, keys, IPs, tokens, etc.
+3. Consider proper use of licensing for the code base and consider proper use of open source code within the code base.
+4. Review code for any legal or contractual issues.
+5. Include GSA standard or updated README.md:
+   - Have installation instructions documented and tried out before posting
+   - Make sure to include and test all configuration dependencies
+6. Include GSA standard or updated CONTRIBUTING.md file.
+7. Include GSA standard or updated LICENSE.md.
+8. Include an updated codeinventory.yml.
+9. If desired, include CHANGELOG.md.
+10. Use .gitignore.
+11. Setup or use a standard development pipeline:
+    - Look at GSA's code scanning documentation - static_code_scan and checkmarx_poc docs
+    - Contact the CTO's office for support - cto@gsa.gov
