@@ -12,10 +12,9 @@ import type { Analysis, Dashboard, Document, Page, Settings } from './types';
 
 function useNotice(){const [notice,setNotice]=useState('');useEffect(()=>{if(!notice)return;const id=setTimeout(()=>setNotice(''),4000);return()=>clearTimeout(id)},[notice]);return {notice,setNotice}}
 function App(){
- const [dark,setDark]=useState(localStorage.getItem('theme')==='dark'); const [ready,setReady]=useState(false);
+ const [dark,setDark]=useState(localStorage.getItem('theme')==='dark');
  useEffect(()=>{document.documentElement.classList.toggle('dark',dark);localStorage.setItem('theme',dark?'dark':'light')},[dark]);
- useEffect(()=>{request<Settings>('/settings/').then(p=>setDark(p.theme==='dark')).catch(()=>undefined).finally(()=>setReady(true))},[]);
- if(!ready)return <div className="loading-screen"><LoaderCircle className="spin"/> Loading workspace</div>;
+ useEffect(()=>{request<Settings>('/settings/').then(p=>setDark(p.theme==='dark')).catch(()=>undefined)},[]);
  return <Routes><Route path="/" element={<Landing/>}/><Route element={<Shell dark={dark} setDark={setDark}/>}><Route path="/dashboard" element={<DashboardPage/>}/><Route path="/upload" element={<UploadPage/>}/><Route path="/ask-ai" element={<AskAIPage/>}/><Route path="/history" element={<HistoryPage/>}/><Route path="/reviews" element={<ReviewQueuePage/>}/><Route path="/model-performance" element={<ModelPerformancePage/>}/><Route path="/analysis/:id" element={<ResultPage/>}/><Route path="/settings" element={<SettingsPage dark={dark} setDark={setDark}/>}/></Route><Route path="*" element={<Navigate to="/dashboard" replace/>}/></Routes>
 }
 
