@@ -10,8 +10,17 @@ export async function request<T>(path:string, options:RequestInit = {}):Promise<
     throw new Error('Cannot reach the DocuGuard API. Check that the backend is deployed and VITE_API_URL points to its /api address.');
   }
   if (response.status === 204) return undefined as T;
-  const data = await response.json().catch(()=>({detail:'The server returned an unreadable response.'}));
-  if (!response.ok) throw new Error(data.detail || Object.values(data).flat().join(' ') || 'Request failed.');
+  const contentType = response.headers.get('content-type') || '';
+  const data = contentType.includes('application/json')
+    ? await response.json().catch(() => null)
+    : null;
+  if (!response.ok) {
+    const detail = data?.detail || (data ? Object.values(data).flat().join(' ') : '');
+    throw new Error(detail || `API returned HTTP ${response.status}. Check VITE_API_URL and the backend route.`);
+  }
+  if (!data) {
+    throw new Error(`API returned a non-JSON response (HTTP ${response.status}). Check that VITE_API_URL ends in /api and that the backend is running.`);
+  }
   return data as T;
 }
 
