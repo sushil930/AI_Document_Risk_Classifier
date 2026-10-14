@@ -6,16 +6,18 @@ import textwrap
 from pathlib import Path
 from io import BytesIO
 from django.conf import settings
-from django.db.models import Case, Count, F, FloatField, OuterRef, Subquery, When
+from django.db.models import Case, F, FloatField, When
 from django.db.models.functions import Cast
 from django.http import HttpResponse, JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Document, Analysis, DocumentClassification, ClassificationReview, WorkspaceSettings
-from .serializers import DocumentSerializer, AnalysisSerializer, SettingsSerializer, ReviewQueueSerializer, ReviewActivitySerializer
+from .models import Document, Analysis, DocumentClassification, ClassificationReview
+from .serializers import DocumentSerializer, AnalysisSerializer, ReviewQueueSerializer
 from .extraction import extract_text
 from .services import analyze_text, answer_question, attach_evidence_references, ProviderError
 from .classifier_service import classify_document
@@ -24,22 +26,19 @@ logger = logging.getLogger(__name__)
 def health(request): return JsonResponse({"status":"ok"})
 
 
-def _ensure_review_record(classification):
-    if classification.review_required:
-        ClassificationReview.objects.get_or_create(classification=classification)
-
+@method_decorator(never_cache, name="dispatch")
 class DocumentViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentSerializer
     http_method_names = ["get", "post", "delete", "head", "options"]
     def get_queryset(self):
-        queryset = Document.objects.prefetch_related("analyses", "classifications")
-        search = self.request.query_params.get("search", "").strip()
-        return queryset.filter(original_filename__icontains=search) if search else queryset
-    def perform_destroy(self, instance):
-        storage, name = instance.file.storage, instance.file.name
-        instance.delete()
-        if name: storage.delete(name)
+        # Legacy shared-workspace records are no longer served to browser clients.
+        return Document.objects.none()
     def create(self, request, *args, **kwargs):
+        return Response({"detail":"Persistent document uploads are disabled. Use the stateless local-history analysis endpoint."}, status=410)
+
+    @action(detail=False, methods=["post"], url_path="analyze-local")
+    def analyze_local(self, request):
+        """Analyze an uploaded file in this request without creating database or file-storage records."""
         upload = request.FILES.get("file")
         if not upload: return Response({"detail":"Choose a file to upload."}, status=400)
         if upload.size > settings.MAX_UPLOAD_MB * 1024 * 1024: return Response({"detail":f"File exceeds the {settings.MAX_UPLOAD_MB} MB upload limit."}, status=400)
@@ -51,8 +50,101 @@ class DocumentViewSet(viewsets.ModelViewSet):
             logger.info("Upload extraction rejected (%s)", type(exc).__name__)
             return Response({"detail":"This file could not be read. Upload a valid PDF, DOCX, or UTF-8 TXT file."}, status=400)
         name = os.path.basename(upload.name).replace("\x00", "")[:255] or f"document.{suffix}"
-        item = Document.objects.create(file=upload, original_filename=name, file_type=suffix, file_size=upload.size, extracted_text=text)
-        return Response(DocumentSerializer(item).data, status=201)
+        text_limit = settings.MAX_DOCUMENT_CHARS
+        truncated = len(text) > text_limit
+        analyzed_text = text[:text_limit]
+        include_ai = request.data.get("include_ai", False)
+        include_ai = include_ai is True or str(include_ai).lower() in {"true", "1", "yes"}
+        model = request.data.get("model") or settings.GEMINI_DEFAULT_MODEL
+        if include_ai and model not in settings.ANALYSIS_MODELS:
+            return Response({"detail":"Select an available configured model."}, status=400)
+
+        classification = classify_document(analyzed_text)
+        classification["classifier_version"] = classification.get("classifier_version") or ""
+        unreadable = not re.sub(r"\[Page\s+\d+\]\s*", "", analyzed_text).strip()
+        limitations = []
+        if truncated:
+            limitations.append(f"Only the first {text_limit} extracted characters were analyzed because the configured processing limit was reached.")
+
+        completed_model = "local-classifier"
+        findings = []
+        overall_priority = None
+        detected_document_type = ""
+        if include_ai and not unreadable:
+            try:
+                report, unable, completed_model = analyze_text(analyzed_text, model)
+                if report:
+                    report = attach_evidence_references(report, analyzed_text)
+                if unable:
+                    limitations.extend(report.get("limitations", []) if report else [])
+                    limitations.append(unable)
+                else:
+                    overall_priority = report["overall_priority"]
+                    findings = report["findings"]
+                    detected_document_type = report["document_type"]
+                    limitations.extend(report["limitations"])
+                    if classification["status"] == "complete" and classification["predicted_label"] != overall_priority:
+                        classification["review_required"] = True
+                        classification["review_reasons"].append("Classifier and LLM review priorities differ; human review is required.")
+            except ProviderError as exc:
+                return Response({"detail":str(exc)}, status=502)
+        elif include_ai and unreadable:
+            limitations.append("No readable text could be extracted. A scanned PDF may require OCR.")
+
+        if include_ai and not unreadable:
+            success = overall_priority is not None
+            summary = report["summary"] if success else (limitations[-1] if limitations else "The document could not be meaningfully assessed.")
+            result_status = "complete" if success else "unable_to_assess"
+        else:
+            unable_reason = (
+                "No readable text could be extracted. This may be a scanned PDF; OCR is required."
+                if unreadable else next(iter(classification["review_reasons"]), "The classifier could not meaningfully assess this document.")
+            )
+            success = classification["status"] == "complete" and bool(classification["predicted_label"])
+            overall_priority = classification["predicted_label"] if success else None
+            result_status = "complete" if success else ("unavailable" if classification["status"] == "unavailable" else "unable_to_assess")
+            summary = (
+                f"The local classifier predicted {overall_priority} priority. This is a triage result; use Ask AI for an optional text-based review."
+                if success else unable_reason
+            )
+            limitations.extend([
+                "No LLM review was requested. Classifier output is a triage recommendation and requires human verification.",
+                "This result does not establish that the document is safe or compliant.",
+            ])
+            if not success:
+                limitations.insert(0, unable_reason)
+
+        if truncated:
+            limitations.append("Sections after the configured processing limit were not analyzed.")
+        now = timezone.now().isoformat()
+        payload = {
+            "document_name":name,
+            "document_type":suffix,
+            "detected_document_type":detected_document_type,
+            "file_size":upload.size,
+            "extracted_text":text,
+            "analysis":{
+                "selected_model":completed_model if include_ai else "local-classifier",
+                "status":result_status,
+                "overall_priority":overall_priority,
+                "summary":summary,
+                "findings":findings,
+                "limitations":list(dict.fromkeys(limitations)),
+                "error_message":"" if result_status == "complete" else summary,
+                "created_at":now,
+                "completed_at":now,
+                "classification":{
+                    **classification,
+                    "review_decision":{
+                        "status":"needs_review",
+                        "final_label":None,
+                        "note":"",
+                        "updated_at":now,
+                    },
+                },
+            },
+        }
+        return Response(payload)
     @action(detail=False, methods=["post"], url_path="preview")
     def preview_upload(self, request):
         upload = request.FILES.get("file")
@@ -66,94 +158,16 @@ class DocumentViewSet(viewsets.ModelViewSet):
             logger.info("Preview extraction rejected (%s)", type(exc).__name__)
             return Response({"detail":"This file could not be read. Upload a valid PDF, DOCX, or UTF-8 TXT file."}, status=400)
         return Response({"text":text[:12000],"truncated":len(text)>12000,"file_type":file_type,"characters":len(text)})
-    @action(detail=True, methods=["post"])
-    def analyze(self, request, pk=None):
-        document = self.get_object()
-        preferences, _ = WorkspaceSettings.objects.get_or_create(pk=1, defaults={"default_model":settings.GEMINI_DEFAULT_MODEL})
-        model = request.data.get("model") or preferences.default_model
-        include_ai = request.data.get("include_ai", False)
-        if not isinstance(include_ai, bool): return Response({"detail":"include_ai must be true or false."}, status=400)
-        if include_ai and model not in settings.ANALYSIS_MODELS: return Response({"detail":"Select an available configured model."}, status=400)
-        document.status = "analyzing"; document.save(update_fields=["status"])
-        classification_payload = classify_document(document.extracted_text)
-        classification_payload["classifier_version"] = classification_payload.get("classifier_version") or ""
-        classification = DocumentClassification.objects.create(document=document, **classification_payload)
-        if not include_ai:
-            unreadable = not re.sub(r"\[Page\s+\d+\]\s*", "", document.extracted_text).strip()
-            unable_reason = (
-                "No readable text could be extracted. This may be a scanned PDF; OCR is required."
-                if unreadable else next(iter(classification.review_reasons), "The classifier could not meaningfully assess this document.")
-            )
-            unable = unreadable or classification.status != "complete" or not classification.predicted_label
-            priority = classification.predicted_label if not unable else None
-            summary = (
-                f"The local classifier predicted {priority} priority. This is a triage result; use Ask AI for an optional text-based review."
-                if priority else unable_reason
-            )
-            limitations = [
-                "No LLM review was requested. Classifier output is a triage recommendation and requires human verification.",
-                "This result does not establish that the document is safe or compliant.",
-            ]
-            if unable:
-                limitations.insert(0, unable_reason)
-            result = Analysis.objects.create(
-                document=document,
-                selected_model="local-classifier",
-                status="unable_to_assess" if unable else "complete",
-                overall_priority=priority,
-                summary=summary,
-                findings=[],
-                limitations=limitations,
-                error_message=unable_reason if unable else "",
-                completed_at=timezone.now(),
-            )
-            classification.analysis = result
-            classification.save(update_fields=["analysis"])
-            _ensure_review_record(classification)
-            document.status = result.status
-            document.save(update_fields=["status"])
-            return Response(AnalysisSerializer(result).data, status=201)
-        try:
-            report, unable, completed_model = analyze_text(document.extracted_text, model)
-            if report:
-                report = attach_evidence_references(report, document.extracted_text)
-            if not re.sub(r"\[Page\s+\d+\]\s*", "", document.extracted_text).strip(): unable = "No readable text could be extracted. This may be a scanned PDF; OCR is required."
-            if unable:
-                classification.status = "unable_to_assess"
-                classification.predicted_label = None
-                classification.class_scores = {}
-                classification.review_required = True
-                classification.review_reasons = [unable, "Classifier priority withheld because the document could not be meaningfully assessed."]
-            elif report and classification.status == "complete" and classification.predicted_label != report["overall_priority"]:
-                classification.review_required = True
-                classification.review_reasons = [
-                    *classification.review_reasons,
-                    "Classifier and LLM review priorities differ; human review is required.",
-                ]
-            classification.save(update_fields=["status", "predicted_label", "class_scores", "review_required", "review_reasons"])
-            _ensure_review_record(classification)
-            result = Analysis.objects.create(document=document, selected_model=completed_model, status="unable_to_assess" if unable else "complete", overall_priority=report["overall_priority"] if report else None, summary=report["summary"] if report else unable, findings=report["findings"] if report else [], limitations=report["limitations"] if report else [unable], error_message=unable or "", completed_at=timezone.now())
-            classification.analysis = result; classification.save(update_fields=["analysis"])
-            document.status = result.status; document.document_type = report["document_type"] if report else ""; document.save(update_fields=["status","document_type"])
-            return Response(AnalysisSerializer(result).data, status=201)
-        except ProviderError as exc:
-            failed_result = Analysis.objects.create(document=document, selected_model=model, status="failed", error_message=str(exc), summary="Analysis could not be completed.", limitations=["No valid report was produced; no risk priority was assigned."], completed_at=timezone.now())
-            classification.analysis = failed_result; classification.save(update_fields=["analysis"])
-            _ensure_review_record(classification)
-            document.status = "failed"; document.save(update_fields=["status"])
-            return Response({"detail":str(exc)}, status=502)
-    @action(detail=True, methods=["get"])
-    def preview(self, request, pk=None):
-        doc = self.get_object()
-        return Response({"text":doc.extracted_text[:12000],"truncated":len(doc.extracted_text)>12000})
 
 
+@method_decorator(never_cache, name="dispatch")
 class AskAIView(APIView):
-    """Optional, on-demand LLM Q&A for a stored document or general questions."""
+    """Optional, on-demand LLM Q&A over text supplied from this browser request."""
     def post(self, request):
         question = request.data.get("question", "")
         model = request.data.get("model", "")
-        document_id = request.data.get("document_id")
+        document_text = request.data.get("document_text", "")
+        document_name = request.data.get("document_name", "")
         history = request.data.get("history", [])
         if not isinstance(question, str) or not question.strip() or len(question) > 4000:
             return Response({"detail":"Enter a question between 1 and 4000 characters."}, status=400)
@@ -167,19 +181,16 @@ class AskAIView(APIView):
             return Response({"detail":"Conversation history is invalid. Start a new Ask AI conversation."}, status=400)
         if model not in settings.ANALYSIS_MODELS:
             return Response({"detail":"Select an available configured model."}, status=400)
-
-        document = None
-        if document_id not in (None, ""):
-            try:
-                document = Document.objects.get(pk=document_id)
-            except (Document.DoesNotExist, ValueError, TypeError):
-                return Response({"detail":"The selected document could not be found."}, status=404)
-            if not document.extracted_text.strip():
-                return Response({"detail":"This document has no readable extracted text. Scanned PDFs require OCR before Ask AI can use them."}, status=400)
+        if not isinstance(document_text, str) or len(document_text) > settings.MAX_DOCUMENT_CHARS:
+            return Response({"detail":"Document context is invalid or exceeds the configured processing limit."}, status=400)
+        if not isinstance(document_name, str) or len(document_name) > 255:
+            return Response({"detail":"Document name is invalid."}, status=400)
+        if document_text and not document_text.strip():
+            return Response({"detail":"This document has no readable extracted text. Scanned PDFs require OCR before Ask AI can use them."}, status=400)
         try:
             answer, used_model = answer_question(
                 question,
-                document.extracted_text if document else "",
+                document_text,
                 model,
                 history,
             )
@@ -191,26 +202,14 @@ class AskAIView(APIView):
         return Response({
             "answer":answer,
             "model":used_model,
-            "document_id":document.pk if document else None,
-            "document_name":document.original_filename if document else "",
+            "document_id":None,
+            "document_name":document_name,
         })
 
 class AnalysisViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = AnalysisSerializer
     def get_queryset(self):
-        qs = Analysis.objects.select_related("document", "classification")
-        q = self.request.query_params.get("search")
-        if q: qs = qs.filter(document__original_filename__icontains=q)
-        for key, field in [("priority","overall_priority"),("type","document__file_type"),("model","selected_model")]:
-            value = self.request.query_params.get(key)
-            if value: qs = qs.filter(**{field:value})
-        start, end = self.request.query_params.get("start"), self.request.query_params.get("end")
-        if start: qs = qs.filter(created_at__date__gte=start)
-        if end: qs = qs.filter(created_at__date__lte=end)
-        ordering = self.request.query_params.get("ordering")
-        allowed_orderings = {"created_at", "-created_at", "overall_priority", "-overall_priority", "document__original_filename", "-document__original_filename"}
-        if ordering in allowed_orderings: qs = qs.order_by(ordering)
-        return qs
+        return Analysis.objects.none()
     @action(detail=True, methods=["get"], url_path="export/json")
     def export_json(self, request, pk=None):
         item = self.get_object(); data = AnalysisSerializer(item).data
@@ -259,12 +258,51 @@ class AnalysisViewSet(viewsets.ReadOnlyModelViewSet):
         if name: storage.delete(name)
         return Response(status=204)
 
+@method_decorator(never_cache, name="dispatch")
+class LocalReportPDFView(APIView):
+    """Render a browser-held report as PDF without looking up or saving a database record."""
+    def post(self, request):
+        report = request.data
+        if not isinstance(report, dict) or not isinstance(report.get("document_name"), str):
+            return Response({"detail":"A valid local report is required."}, status=400)
+        from reportlab.lib.pagesizes import letter
+        from reportlab.pdfgen import canvas
+        buffer = BytesIO(); pdf = canvas.Canvas(buffer, pagesize=letter); y = 750
+        def line(text):
+            nonlocal y
+            parts = [wrapped for raw in str(text).splitlines() or [""] for wrapped in (textwrap.wrap(raw, width=96, break_long_words=True) or [""])]
+            for part in parts:
+                if y < 55: pdf.showPage(); y = 750
+                pdf.drawString(48, y, part); y -= 16
+        line("DocuGuard AI - Document Review Report")
+        line(report["document_name"])
+        line(f"Date: {report.get('created_at', '')} | Model: {report.get('selected_model', '')}")
+        line(f"Status: {report.get('status', '')} | Priority: {report.get('overall_priority') or 'Not assessed'}")
+        line(""); line("Summary"); line(report.get("summary", ""))
+        classification = report.get("classification") or {}
+        line(f"Classifier prediction: {classification.get('predicted_label') or classification.get('status', 'unavailable')} | Version: {classification.get('classifier_version') or 'unavailable'}")
+        line("Classifier class scores: " + json.dumps(classification.get("class_scores") or {}, ensure_ascii=False))
+        for reason in classification.get("review_reasons") or []: line(f"Model review reason: {reason}")
+        for index, finding in enumerate(report.get("findings") or [], 1):
+            line(f"Finding {index}: {finding.get('issue', '')} ({finding.get('severity', '')})")
+            line(f"Evidence: {finding.get('evidence', '')}")
+            line(f"Why it matters: {finding.get('explanation', '')}")
+            line(f"Suggested action: {finding.get('recommended_action', '')}")
+        line("Limitations")
+        for item in report.get("limitations") or []: line(f"- {item}")
+        line("Human verification is required. This report is not legal advice and does not certify compliance.")
+        pdf.save()
+        response = HttpResponse(buffer.getvalue(), content_type="application/pdf")
+        response["Content-Disposition"] = 'attachment; filename="docuguard-local-report.pdf"'
+        return response
+
+
 class ReviewQueueViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ReviewQueueSerializer
     queryset = DocumentClassification.objects.none()
 
     def get_queryset(self):
-        qs = DocumentClassification.objects.select_related("document", "analysis", "review_decision").annotate(
+        qs = DocumentClassification.objects.none().select_related("document", "analysis", "review_decision").annotate(
             top_class_score=Case(
                 When(predicted_label="Low", then=Cast(F("class_scores__Low"), FloatField())),
                 When(predicted_label="Medium", then=Cast(F("class_scores__Medium"), FloatField())),
@@ -332,24 +370,7 @@ class ReviewQueueViewSet(viewsets.ReadOnlyModelViewSet):
 
 class DashboardView(APIView):
     def get(self, request):
-        docs = Document.objects.all(); analyses = Analysis.objects.select_related("document")
-        latest_classification = DocumentClassification.objects.filter(document_id=OuterRef("pk")).order_by("-created_at", "-pk").values("pk")[:1]
-        latest_ids = Document.objects.annotate(latest_classification_id=Subquery(latest_classification)).values_list("latest_classification_id", flat=True)
-        current_predictions = DocumentClassification.objects.filter(pk__in=latest_ids, status="complete", predicted_label__isnull=False)
-        reviews = ClassificationReview.objects.select_related("classification__document").order_by("-updated_at")
-        return Response({
-            "total_documents":analyses.filter(status__in=["complete","unable_to_assess"]).values("document_id").distinct().count(),
-            "awaiting_review":docs.filter(status__in=["uploaded","analyzing"]).count(),
-            "high_priority":analyses.filter(overall_priority="High",status="complete").count(),
-            "priority_distribution":list(analyses.filter(status="complete").values("overall_priority").annotate(count=Count("id"))),
-            "predicted_distribution":list(current_predictions.values("predicted_label").annotate(count=Count("id"))),
-            "manual_review_backlog":reviews.filter(status="needs_review",classification__review_required=True).count(),
-            "reviewed_count":reviews.filter(status="reviewed").count(),
-            "dismissed_count":reviews.filter(status="dismissed").count(),
-            "recent_review_decisions":ReviewActivitySerializer(reviews.exclude(status="needs_review")[:5],many=True).data,
-            "recent_analyses":AnalysisSerializer(analyses[:5],many=True).data,
-            "recent_activity":DocumentSerializer(docs[:8],many=True).data,
-        })
+        return Response({"detail":"Document history and dashboard records are stored in browser storage, not on the server."}, status=410)
 
 
 class ModelPerformanceView(APIView):
@@ -388,7 +409,8 @@ class ModelPerformanceView(APIView):
 class SettingsView(APIView):
     def response_data(self, preferences):
         return {
-            **SettingsSerializer(preferences).data,
+            "default_model":settings.GEMINI_DEFAULT_MODEL,
+            "theme":"light",
             "models":settings.ANALYSIS_MODELS,
             "provider_configured":bool(settings.GEMINI_API_KEY or settings.GROQ_API_KEY),
             "providers":{"gemini_configured":bool(settings.GEMINI_API_KEY),"groq_configured":bool(settings.GROQ_API_KEY)},
@@ -397,10 +419,6 @@ class SettingsView(APIView):
             "classifier":{"configured":bool(settings.CLASSIFIER_MODEL_PATH),"candidate_allowed":settings.CLASSIFIER_ALLOW_CANDIDATE,"min_words":settings.CLASSIFIER_MIN_WORDS},
         }
     def get(self, request):
-        preferences, _ = WorkspaceSettings.objects.get_or_create(pk=1, defaults={"default_model":settings.GEMINI_DEFAULT_MODEL})
-        return Response(self.response_data(preferences))
+        return Response(self.response_data(None))
     def patch(self, request):
-        preferences, _ = WorkspaceSettings.objects.get_or_create(pk=1, defaults={"default_model":settings.GEMINI_DEFAULT_MODEL})
-        serializer = SettingsSerializer(preferences, data=request.data, partial=True); serializer.is_valid(raise_exception=True)
-        if "default_model" in serializer.validated_data and serializer.validated_data["default_model"] not in settings.ANALYSIS_MODELS: return Response({"default_model":"Choose a configured model."}, status=400)
-        serializer.save(); return Response(self.response_data(preferences))
+        return Response({"detail":"Preferences are stored in this browser."}, status=410)

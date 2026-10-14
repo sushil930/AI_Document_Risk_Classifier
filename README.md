@@ -1,8 +1,8 @@
 # DocuGuard AI
 
-DocuGuard AI is a local-first, shared workspace for classifying business documents and deciding which ones need a closer human review. It accepts PDF, DOCX, and TXT files, extracts their text on the Django server, and runs a configured TF-IDF classifier locally. LLM use is optional: turn it on for a one-off document review, or open **Ask AI** to ask questions about a stored document or a general topic.
+DocuGuard AI is a browser-local document triage and review app. It accepts PDF, DOCX, and TXT files, extracts text and runs a configured classifier through Django, then saves the file copy, extracted text, analysis report, and review decisions in the current browser profile using IndexedDB. The server does not create a document-history record for new uploads.
 
-This is a showcase project. It is not a legal adviser, compliance certification tool, calibrated measure of harm, or production-ready multi-user service. Verify model output against the source document.
+This is a showcase project, not a legal adviser, compliance certification tool, calibrated measure of harm, or production-ready multi-user service. Verify model output against the source document.
 
 ## What it does
 
@@ -11,48 +11,41 @@ This is a showcase project. It is not a legal adviser, compliance certification 
 - Show class scores, influential terms, and similar training examples as model explanations. These are signals, not evidence or probabilities of harm.
 - Route high-priority, uncertain, and showcase-candidate predictions to a manual-review queue.
 - Optionally request a structured LLM document review with evidence excerpts, explanations, recommended actions, and limitations.
-- Use **Ask AI** for a non-persisted conversation, with optional context from a stored document. Replies support Markdown, including tables and code blocks.
-- View database-backed dashboard metrics, history, reviewer decisions, and the configured classifier's evaluation report.
-- Export document analysis results as JSON or PDF; switch between light and dark themes.
+- Use **Ask AI** for an on-demand conversation with optional context from a document in this browser. Replies support Markdown.
+- View dashboard metrics, history, review decisions, and the configured classifier evaluation report. Document-derived dashboard and history data come from this browser's IndexedDB.
+- Export reports as JSON or PDF; switch between light and dark themes.
 
-## Architecture
+## Data flow and architecture
 
 ```mermaid
 flowchart LR
-    Person[Reviewer in browser]
-    subgraph UI[React frontend]
-        App[React and TypeScript app]
-        Query[TanStack Query API state]
-        Markdown[Markdown renderer]
-        App --> Query
-        App --> Markdown
+    Person[Reviewer]
+    subgraph Browser[This browser profile]
+        UI[React app]
+        IDB[(IndexedDB: files, extracted text, reports, review decisions)]
+        Prefs[Local preferences]
+        UI <--> IDB
+        UI <--> Prefs
     end
-    subgraph API[Django and Django REST Framework]
-        Routes[REST endpoints and validation]
+    subgraph API[Django API: request processing]
+        Routes[Validation and API routes]
         Extract[PDF DOCX TXT extraction]
         Classifier[Local TF-IDF classifier]
-        LLMService[Optional LLM analysis and Q and A]
-        ORM[Django ORM]
-        PrivateFiles[Private uploaded-file storage]
-        Routes --> Extract
-        Extract --> Classifier
-        Extract --> LLMService
-        Routes --> ORM
-        Routes --> PrivateFiles
+        LLM[Optional LLM analysis and Q and A]
+        Routes --> Extract --> Classifier
+        Extract --> LLM
     end
-    DB[(SQLite or PostgreSQL)]
-    Artifact[(Configured classifier artifact)]
+    Artifact[(Classifier artifact)]
     Gemini[Google Gemini]
     Groq[Groq Cloud fallback]
-    Person --> App
-    Query -->|HTTP JSON and multipart| Routes
-    ORM --> DB
+    Person --> UI
+    UI -->|temporary upload or text request| Routes
     Classifier --> Artifact
-    LLMService --> Gemini
-    Gemini -. configured fallback for unavailable model or server .-> Groq
+    LLM --> Gemini
+    Gemini -. configured fallback .-> Groq
 ```
 
-The browser never receives provider API keys. The Django API validates uploads, stores documents and results, and calls the local classifier. Only an explicit LLM review or an Ask AI submission sends document text to a configured provider.
+The browser never receives provider API keys. New document analysis requests are handled in memory by the API: the server validates and extracts the upload, runs the classifier, and returns the result without creating a document, analysis, or uploaded-file record in the server database or file storage. The frontend then saves the file copy and report in IndexedDB on that browser profile. Ask AI and optional LLM analysis send text to the configured provider only when requested. Provider retention follows that provider's terms.
 
 ### Main document workflow
 
@@ -60,40 +53,40 @@ The browser never receives provider API keys. The Django API validates uploads, 
 sequenceDiagram
     actor User
     participant UI as React app
+    participant Local as Browser IndexedDB
     participant API as Django API
     participant Extract as Text extraction
     participant Classifier as Local classifier
     participant LLM as Optional Gemini or Groq
-    participant DB as Database and private storage
-    User->>UI: Choose a PDF, DOCX, or TXT file
-    UI->>API: POST /documents/preview/ (multipart)
-    API->>Extract: Validate and extract text
-    Extract-->>UI: Preview text and truncation indicator
-    User->>UI: Submit classification (AI review off by default)
-    UI->>API: POST /documents/ then /documents/{id}/analyze/
-    API->>Extract: Validate, extract, and store document
-    API->>Classifier: Classify extracted text locally
-    opt User enabled Include optional AI review
-        API->>LLM: Analyze text in chunks and request structured JSON
-        LLM-->>API: Findings, evidence, summary, and limitations
+    User->>UI: Choose PDF, DOCX, or TXT
+    UI->>API: POST /documents/preview/ for preview
+    API->>Extract: Validate and extract temporarily
+    Extract-->>UI: Preview text
+    User->>UI: Submit analysis
+    UI->>API: POST /documents/analyze-local/ (multipart)
+    API->>Extract: Validate and extract in request
+    Extract->>Classifier: Classify extracted text
+    opt User enabled optional AI review
+        Extract->>LLM: Send text for structured review
+        LLM-->>Extract: Findings and limitations
     end
-    API->>DB: Save document, classification, analysis, and review state
-    API-->>UI: Result with classifier and optional LLM report
-    User->>UI: Inspect result and export JSON or PDF
+    API-->>UI: Return analysis; do not create history records
+    UI->>Local: Save file, text, result, and review state
+    User->>Local: Search, review, export, or delete local history
 ```
 
 ### Ask AI workflow
 
-1. Open **Ask AI** and choose either no document or a stored document. Search by filename to find older uploads.
-2. Choose a configured model, type a question, and submit it. Nothing is sent to an LLM before submission.
-3. The API loads the selected document's extracted text, treats it as untrusted context, calls the selected provider, and returns the answer and actual model used.
-4. The frontend renders the answer as Markdown. Conversation history stays in the current browser view and is not saved to the database.
+1. Open **Ask AI** and optionally select a document saved in this browser.
+2. Submit a question. The selected document text is sent in that API request and is not looked up from a server-side history record.
+3. The API calls the selected provider and returns the answer and actual model used.
+4. Conversation turns remain in the current page view and are not persisted.
 
-If Gemini reports an unavailable model (HTTP 404) or a server error (HTTP 5xx), the API can retry with the configured Groq fallback. It does not silently switch for authorization errors, quotas, timeouts, or network failures.
+### Local history and review
 
-### Human-review workflow
+History, dashboard document metrics, analysis results, review decisions, and saved file copies belong to the current browser profile. They do not sync across browsers or devices and are not visible to other visitors. Clearing the site's browser storage removes them. Browser storage limits apply. Deleting a document from History removes its local file copy, extracted text, and associated analysis records.
 
-Classifier predictions remain immutable when a reviewer marks a queue item as reviewed or dismissed. The human decision, final human-assessed priority, and note are stored separately. This shared workspace has no accounts, so it cannot verify who made a decision.
+The current release stops serving legacy shared document and analysis records through the API. It does not automatically delete records or files created by older versions from the deployed database/storage; those older records require a separate cleanup decision.
 
 ## Technology and project layout
 
@@ -281,42 +274,33 @@ Set `CLASSIFIER_MODEL_PATH` to the resulting `model.joblib` path in `backend/.en
 
 ## API overview
 
-All routes are mounted below `/api/`. Endpoints are public and shared; there are no accounts or per-user ownership controls. Paginated list endpoints use Django REST Framework's page-number pagination.
+All routes are mounted below `/api/`. The app has no accounts. New document history is stored in browser IndexedDB; the backend endpoints below process requests without adding document-history rows.
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
 | `GET` | `/api/health/` | Health check (`{"status":"ok"}`) |
-| `GET` | `/api/settings/` | Workspace settings, configured model IDs, provider-key presence, upload limit, and classifier status |
-| `PATCH` | `/api/settings/` | Update default model and theme |
-| `GET` | `/api/dashboard/` | Database-backed metrics, recent analyses, activity, and review decisions |
+| `GET` | `/api/settings/` | Configured model IDs, provider-key presence, upload limit, and classifier status; never returns keys |
 | `GET` | `/api/model-performance/` | Evaluation and promotion-gate information for the configured artifact |
-| `GET` | `/api/documents/` | List documents; supports filename `search` |
-| `POST` | `/api/documents/preview/` | Validate and extract a temporary upload preview (multipart field `file`); does not store the upload |
-| `POST` | `/api/documents/` | Validate, extract, and store an uploaded document (multipart field `file`) |
-| `GET` | `/api/documents/{id}/` | Read one shared document and latest result metadata |
-| `DELETE` | `/api/documents/{id}/` | Delete a document and its associated records and stored file |
-| `POST` | `/api/documents/{id}/analyze/` | Classify locally; optionally send `{"include_ai": true, "model": "..."}` for an LLM report. LLM is off by default. |
-| `POST` | `/api/ask-ai/` | Ask an optional question with `question`, optional `document_id`, configured `model`, and optional short `history` |
-| `GET` | `/api/analyses/` | Paginated history; supports `search`, `priority`, `type`, `model`, `start`, `end`, and `ordering` |
-| `GET` | `/api/analyses/{id}/` | Read one analysis and its classifier result |
-| `GET` | `/api/analyses/{id}/export/json/` | Download a JSON report |
-| `GET` | `/api/analyses/{id}/export/pdf/` | Download a PDF report |
-| `DELETE` | `/api/analyses/{id}/delete/` | Delete an analysis and its associated document/file |
-| `GET` | `/api/reviews/` | Paginated manual-review queue; supports status, priority, score band, reason, dates, and ordering filters |
-| `POST` | `/api/reviews/{classification_id}/decision/` | Save review status, final human-assessed class, and note separately from the model prediction |
+| `POST` | `/api/documents/preview/` | Validate and extract a temporary upload preview (multipart field `file`) |
+| `POST` | `/api/documents/analyze-local/` | Analyze a temporary upload (multipart fields `file`, optional `include_ai`, and `model`); returns a report without saving server history |
+| `POST` | `/api/ask-ai/` | Ask a question with `question`, optional browser-supplied `document_text` and `document_name`, configured `model`, and short `history` |
+| `POST` | `/api/export/pdf-local/` | Render a report supplied by the browser as a PDF without looking up a stored analysis |
+
+Legacy document, analysis, review, dashboard, and settings-write endpoints are not used for browser history. The old document-history APIs return no shared history or reject persistence.
 
 Example Ask AI request:
 
 ```json
 {
   "question": "When can either party terminate this agreement?",
-  "document_id": 12,
+  "document_name": "agreement.txt",
+  "document_text": "...text extracted from the browser's local document...",
   "model": "gemini-3.8-flash",
   "history": []
 }
 ```
 
-The response contains the answer, the model actually used (including fallback), and the selected document name. Ask AI conversation history is not persisted.
+The response contains the answer, actual model used (including fallback), and document name. Ask AI conversation history is not persisted.
 
 ## Tests and builds
 
@@ -344,14 +328,14 @@ Provider calls are mocked in automated tests; the normal test suite does not nee
 
 ## Security, privacy, and data retention
 
-- **Shared workspace:** The app intentionally has no authentication. Anyone who can reach the API can inspect, upload, classify, export, or delete shared workspace records. Keep it on a trusted local or private network; it is not suitable for direct public exposure.
-- **Provider privacy:** Classification is local. An LLM receives document text only when `include_ai` is explicitly enabled or when a user submits an Ask AI request with a document selected. Check the provider's terms before sending sensitive material.
-- **Private uploads:** Files are stored under `backend/private_uploads/` and are not exposed as public media URLs. The file parser extracts text; uploaded files are not executed.
-- **Retention:** Uploaded files and extracted text remain until the document or associated analysis is deleted. Automatic expiry is not implemented. Ask AI conversation turns are not stored in the database.
+- **Browser-local history:** New uploads, extracted text, reports, and review decisions are saved in IndexedDB in the browser profile that created them. They are not added to shared server history or synced to other devices. Clearing site data removes the local history; browser storage quotas apply.
+- **Transient server processing:** The Django API receives upload bytes to validate, extract text, and run the classifier, then returns a response without creating document-history or uploaded-file records. As with any hosted API, infrastructure may process request data in memory and retain operational logs according to its hosting configuration.
+- **Provider privacy:** The classifier runs locally on the API server. An LLM receives document text only when optional AI review is enabled or when a user submits Ask AI with document context. Check provider terms before sending sensitive material.
+- **Legacy server data:** This version disables serving old shared history and does not write new history, but it does not purge database rows or files created by earlier app versions. Those older records remain until separately deleted from the deployment.
 - **Secrets:** `.env` files are ignored by Git. Keep provider keys server-side and use a unique Django secret outside local development.
-- **Untrusted model output:** LLM findings are validated before persistence and rendered as text/Markdown. The Ask AI Markdown renderer does not enable raw HTML. Treat all model output as unverified.
+- **Untrusted model output:** LLM findings are validated before returning and rendered as text/Markdown. The Ask AI Markdown renderer does not enable raw HTML. Treat all model output as unverified.
 
-For a real deployment, add authentication and per-user access control, serve over HTTPS, set `DJANGO_DEBUG=false`, configure restrictive `DJANGO_ALLOWED_HOSTS` and `FRONTEND_ORIGIN`, use a managed PostgreSQL database, and configure protected file storage and static-file serving. `collectstatic` writes to `backend/staticfiles/`. Deployment has not been performed or verified.
+For a real deployment, add authentication, per-user access control, HTTPS, restrictive `DJANGO_ALLOWED_HOSTS` and `FRONTEND_ORIGIN`, managed PostgreSQL, and protected file storage for any other server-side data. `collectstatic` writes to `backend/staticfiles/`. Deployment has not been performed or verified.
 
 ## Known limitations
 
@@ -359,5 +343,5 @@ For a real deployment, add authentication and per-user access control, serve ove
 - LLM analysis accepts extracted text up to `MAX_DOCUMENT_CHARS`; it processes long inputs sequentially in chunks and consolidates the section reports. Inputs over the configured limit fail explicitly instead of silently analyzing only a prefix.
 - Ask AI sends the selected document's extracted text as context. Very long text may exceed the selected provider's context limits; the API reports provider errors rather than silently truncating it.
 - Classifier scores are model scores, not calibrated harm probabilities. The showcase corpus is synthetic-heavy and AI-assisted, and its evaluation currently fails the conservative release gate. Candidate results require human review.
-- The shared no-login workspace cannot identify reviewers or guarantee that a recorded review came from a particular person.
+- Browser-local history is isolated by browser profile, not by a user login. Anyone using the same browser profile can access its saved history.
 - Current Docker Compose configuration is for local development. No production deployment or production security review has been completed.
