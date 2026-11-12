@@ -32,6 +32,7 @@ describe('DocuGuard workspace',()=>{
     expect(input).not.toBeNull();
     fireEvent.change(input!,{target:{files:[file]}});
     expect(await screen.findByText('policy.txt')).toBeInTheDocument();
+    expect(screen.queryByText('Include optional AI review')).not.toBeInTheDocument();
     await waitFor(()=>expect(screen.getByRole('button',{name:/Extract text preview/})).toBeEnabled());
     fireEvent.click(screen.getByRole('button',{name:/Extract text preview/}));
     expect(await screen.findByText(/A complete supplier policy/)).toBeInTheDocument();
