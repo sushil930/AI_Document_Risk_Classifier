@@ -27,6 +27,11 @@ class AnalyzerTests(TestCase):
         self.assertEqual(self.client.get("/api/auth/me/").status_code, 404)
         self.assertEqual(self.client.get("/api/dashboard/").status_code, 200)
 
+    def test_root_health_check_is_public_and_lightweight(self):
+        response = self.client.get("/health")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"status": "healthy", "message": "Backend is running"})
+
     @override_settings(GEMINI_API_KEY="gemini-secret-test", GROQ_API_KEY="groq-secret-test")
     def test_settings_exposes_provider_status_but_not_api_keys(self):
         response = self.client.get("/api/settings/")

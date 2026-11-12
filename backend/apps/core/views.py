@@ -26,6 +26,10 @@ logger = logging.getLogger(__name__)
 def health(request): return JsonResponse({"status":"ok"})
 
 
+def health_check(request):
+    return JsonResponse({"status": "healthy", "message": "Backend is running"})
+
+
 @method_decorator(never_cache, name="dispatch")
 class DocumentViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentSerializer
